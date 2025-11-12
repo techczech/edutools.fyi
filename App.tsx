@@ -11,6 +11,18 @@ type View = 'content' | 'tools' | 'apps' | 'chat' | 'explore';
 
 const App: React.FC = () => {
   const [activeView, setActiveView] = useState<View>('content');
+  const [initialToolSearch, setInitialToolSearch] = useState('');
+
+  const handleToolLinkClick = (toolName: string) => {
+    setInitialToolSearch(toolName);
+    setActiveView('tools');
+  };
+
+  const handleToolsTabClick = () => {
+    // When the user clicks the tab directly, clear any initial search.
+    setInitialToolSearch('');
+    setActiveView('tools');
+  };
 
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 transition-colors duration-300">
@@ -46,7 +58,7 @@ const App: React.FC = () => {
                 label="Vibecoding Tools"
                 icon={<GridIcon />}
                 isActive={activeView === 'tools'}
-                onClick={() => setActiveView('tools')}
+                onClick={handleToolsTabClick}
               />
                <TabButton
                 label="Eduapps Gallery"
@@ -66,8 +78,8 @@ const App: React.FC = () => {
           <div className="mt-8">
             {activeView === 'content' && <Content setActiveView={setActiveView} />}
             {activeView === 'explore' && <ExploreVibecoding />}
-            {activeView === 'tools' && <VibecodingToolsGallery />}
-            {activeView === 'apps' && <EduappsGallery />}
+            {activeView === 'tools' && <VibecodingToolsGallery initialSearchTerm={initialToolSearch} />}
+            {activeView === 'apps' && <EduappsGallery onToolClick={handleToolLinkClick} />}
             {activeView === 'chat' && <ChatBot />}
           </div>
         </main>

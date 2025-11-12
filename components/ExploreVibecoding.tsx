@@ -1,6 +1,7 @@
 import React from 'react';
-import { AcademicCapIcon, LightBulbIcon, BeakerIcon, CodeBracketIcon, VideoCameraIcon } from './Icons';
+import { AcademicCapIcon, LightBulbIcon, BeakerIcon, CodeBracketIcon, VideoCameraIcon, TipsAndUpdatesIcon } from './Icons';
 import FourLevelsGraphic from './FourLevelsGraphic';
+import PromptBlock from './PromptBlock';
 
 interface SectionTitleProps {
   children: React.ReactNode;
@@ -27,13 +28,13 @@ const ExploreVibecoding: React.FC = () => {
 
             <SectionTitle icon={<AcademicCapIcon />}>What to Learn</SectionTitle>
             <p>You will learn how to make simple applications aided by AI tools such as:</p>
-            <pre><code>Write a tool that will analyse the word frequencies in a text and display them in a graph.</code></pre>
+            <PromptBlock>Write a tool that will analyse the word frequencies in a text and display them in a graph.</PromptBlock>
             <p>You will learn it at four levels, from simple HTML files to complex AI-powered apps.</p>
 
             <SectionTitle icon={<LightBulbIcon />}>What to Do</SectionTitle>
             <p>Try making a simple app using various tools. Here are some ideas:</p>
-            <pre><code>Make a calculator that will convert all numbers into words in English and in French.</code></pre>
-            <pre><code>Make a simple app for tracking tasks.</code></pre>
+            <PromptBlock>Make a calculator that will convert all numbers into words in English and in French.</PromptBlock>
+            <PromptBlock>Make a simple app for tracking tasks.</PromptBlock>
 
             <h3 className="text-2xl font-semibold mt-8 mb-4">Task 1: Ask a chatbot to generate code as HTML file</h3>
             <p>Ask any chatbot to write the code. Include "Code I can run in my browser in a single file." as part of your prompt. Copy the code into a text file, save with a .html extension, and open in your browser.</p>
@@ -50,6 +51,11 @@ const ExploreVibecoding: React.FC = () => {
             <h3 className="text-2xl font-semibold mt-8 mb-4">Task 4: Deploying an AI-powered app</h3>
             <p>Create an app powered by a Large Language Model by thinking about features only an LLM could provide, like answering questions, and setting up a server and API access.</p>
             <p><strong>Tools:</strong> Google AI Studio is the best way to get started for free at <a href="http://ai.dev" target="_blank" rel="noopener noreferrer">ai.dev</a>.</p>
+
+            <SectionTitle icon={<TipsAndUpdatesIcon />}>Tips for Vibecoding</SectionTitle>
+            <h3 className="text-2xl font-semibold mt-8 mb-4">Tip 1: Ask to include fonts for icons</h3>
+            <p>Instead of having the AI generate complex SVG code for icons, ask it to use an icon font library like Google's Material Symbols. This keeps your code cleaner and makes it easier to manage and style icons.</p>
+            <PromptBlock>Use Google font for icons instead of making svg icons https://fonts.google.com/icons</PromptBlock>
 
             <SectionTitle icon={<BeakerIcon />}>Tools Used</SectionTitle>
             <ul className="list-disc list-inside space-y-2">

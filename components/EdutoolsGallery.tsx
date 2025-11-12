@@ -1,13 +1,21 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { vibecodingTools } from '../data/tools';
 import VibecodingToolCard from './ToolCard';
 import { VibecodingTool, VibecodingToolType } from '../types';
 
 const toolTypes: VibecodingToolType[] = ['chatbot', 'agentic-builder', 'llm-provider', 'coding-environment', 'orchestration'];
 
-const VibecodingToolsGallery: React.FC = () => {
-    const [searchTerm, setSearchTerm] = useState('');
+interface VibecodingToolsGalleryProps {
+    initialSearchTerm?: string;
+}
+
+const VibecodingToolsGallery: React.FC<VibecodingToolsGalleryProps> = ({ initialSearchTerm = '' }) => {
+    const [searchTerm, setSearchTerm] = useState(initialSearchTerm);
     const [selectedType, setSelectedType] = useState<VibecodingToolType | 'all'>('all');
+
+    useEffect(() => {
+        setSearchTerm(initialSearchTerm);
+    }, [initialSearchTerm]);
 
     const filteredTools = useMemo(() => {
         return vibecodingTools.filter(tool => {

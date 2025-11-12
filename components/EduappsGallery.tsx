@@ -5,22 +5,37 @@ import { EduApp, EduAppCategory } from '../types';
 
 const appCategories: EduAppCategory[] = ['content-browser', 'simulation', 'productivity', 'llm-powered-app'];
 
-const EduappsGallery: React.FC = () => {
+interface EduappsGalleryProps {
+    onToolClick: (toolName: string) => void;
+}
+
+const EduappsGallery: React.FC<EduappsGalleryProps> = ({ onToolClick }) => {
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedCategory, setSelectedCategory] = useState<EduAppCategory | 'all'>('all');
+    const [selectedTool, setSelectedTool] = useState<string | 'all'>('all');
+
+    const codingTools = useMemo(() => {
+        const allTools = eduapps.flatMap(app => app.madeWith);
+        return [...new Set(allTools)].sort();
+    }, []);
 
     const filteredApps = useMemo(() => {
         return eduapps.filter(app => {
             const matchesCategory = selectedCategory === 'all' || app.category === selectedCategory;
+            const matchesTool = selectedTool === 'all' || app.madeWith.includes(selectedTool);
+            const lowerCaseSearchTerm = searchTerm.toLowerCase();
             const matchesSearch = searchTerm.trim() === '' ||
-                app.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                app.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                app.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase())) ||
-                app.madeWith.some(tool => tool.toLowerCase().includes(searchTerm.toLowerCase()));
+                app.name.toLowerCase().includes(lowerCaseSearchTerm) ||
+                app.tagline.toLowerCase().includes(lowerCaseSearchTerm) ||
+                app.description.toLowerCase().includes(lowerCaseSearchTerm) ||
+                app.idealFor.toLowerCase().includes(lowerCaseSearchTerm) ||
+                app.keyFeatures.some(feature => feature.toLowerCase().includes(lowerCaseSearchTerm)) ||
+                app.tags.some(tag => tag.toLowerCase().includes(lowerCaseSearchTerm)) ||
+                app.madeWith.some(tool => tool.toLowerCase().includes(lowerCaseSearchTerm));
             
-            return matchesCategory && matchesSearch;
+            return matchesCategory && matchesSearch && matchesTool;
         });
-    }, [searchTerm, selectedCategory]);
+    }, [searchTerm, selectedCategory, selectedTool]);
 
     return (
         <section>
@@ -49,13 +64,23 @@ const EduappsGallery: React.FC = () => {
                             </option>
                         ))}
                     </select>
+                     <select
+                        value={selectedTool}
+                        onChange={(e) => setSelectedTool(e.target.value)}
+                        className="bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md py-2 px-4 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-pink-500"
+                    >
+                        <option value="all">All Tools</option>
+                        {codingTools.map(tool => (
+                            <option key={tool} value={tool}>{tool}</option>
+                        ))}
+                    </select>
                 </div>
             </div>
 
             {filteredApps.length > 0 ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     {filteredApps.map(app => (
-                        <EduAppCard key={app.name} app={app} />
+                        <EduAppCard key={app.name} app={app} onToolClick={onToolClick} />
                     ))}
                 </div>
             ) : (

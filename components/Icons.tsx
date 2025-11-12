@@ -41,3 +41,6 @@ export const CanvasIcon = createIcon('draw', 'text-3xl');
 export const DevicePhoneMobileIcon = createIcon('phone_iphone', 'text-3xl');
 export const CodeWindowIcon = createIcon('terminal', 'text-3xl');
 export const CompassIcon = createIcon('explore', 'text-xl');
+export const TipsAndUpdatesIcon = createIcon('tips_and_updates', 'text-3xl');
+export const ClipboardDocumentIcon = createIcon('content_copy');
+export const CheckIcon = createIcon('check');

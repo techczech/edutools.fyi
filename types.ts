@@ -1,4 +1,5 @@
 
+
 export interface Message {
   sender: 'user' | 'bot';
   text: string;
@@ -18,17 +19,14 @@ export interface VibecodingTool {
 // Types for Eduapps Gallery
 export type EduAppCategory = 'content-browser' | 'simulation' | 'productivity' | 'llm-powered-app';
 
-export interface RelatedApp {
-    name: string;
-    type: 'expanded-into' | 'expansion-of';
-}
-
 export interface EduApp {
     name: string;
+    tagline: string;
     description: string;
+    keyFeatures: string[];
+    idealFor: string;
     category: EduAppCategory;
-    link: string;
+    url: string;
     madeWith: string[];
-    relatedApps?: RelatedApp[];
     tags: string[];
 }
