@@ -1,3 +1,4 @@
+
 import React from 'react';
 
 // A generic Icon component that renders a Google Material Symbol.
@@ -44,3 +45,11 @@ export const CompassIcon = createIcon('explore', 'text-xl');
 export const TipsAndUpdatesIcon = createIcon('tips_and_updates', 'text-3xl');
 export const ClipboardDocumentIcon = createIcon('content_copy');
 export const CheckIcon = createIcon('check');
+export const CloseIcon = createIcon('close');
+export const InfoIcon = createIcon('info', 'text-xl');
+export const CloudIcon = createIcon('cloud', 'text-xl');
+export const BookmarkIcon = createIcon('bookmark');
+export const BookmarkBorderIcon = createIcon('bookmark_border');
+export const ArrowUpIcon = createIcon('arrow_upward');
+export const ArrowDownIcon = createIcon('arrow_downward');
+export const DownloadIcon = createIcon('download');

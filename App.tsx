@@ -1,27 +1,48 @@
-import React, { useState } from 'react';
+
+import React, { useState, useEffect } from 'react';
 import Content from './components/Content';
 import ChatBot from './components/ChatBot';
 import ThemeToggle from './components/ThemeToggle';
 import VibecodingToolsGallery from './components/EdutoolsGallery';
 import EduappsGallery from './components/EduappsGallery';
 import ExploreVibecoding from './components/ExploreVibecoding';
-import { BookOpenIcon, GridIcon, SparklesIcon, BotIcon, CompassIcon } from './components/Icons';
+import About from './components/About';
+import { BookOpenIcon, GridIcon, SparklesIcon, BotIcon, CompassIcon, InfoIcon } from './components/Icons';
 
-type View = 'content' | 'tools' | 'apps' | 'chat' | 'explore';
+type View = 'content' | 'tools' | 'apps' | 'chat' | 'explore' | 'about';
 
 const App: React.FC = () => {
   const [activeView, setActiveView] = useState<View>('content');
   const [initialToolSearch, setInitialToolSearch] = useState('');
+  const [initialAppSearch, setInitialAppSearch] = useState('');
+
+  // Handle deep linking on initial load
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (hash && (hash.startsWith('#level-') || hash === '#intro')) {
+      setActiveView('explore');
+    }
+  }, []);
 
   const handleToolLinkClick = (toolName: string) => {
     setInitialToolSearch(toolName);
     setActiveView('tools');
   };
 
+  const handleAppLinkClick = (appName: string) => {
+    setInitialAppSearch(appName);
+    setActiveView('apps');
+  };
+
   const handleToolsTabClick = () => {
     // When the user clicks the tab directly, clear any initial search.
     setInitialToolSearch('');
     setActiveView('tools');
+  };
+
+  const handleAppsTabClick = () => {
+      setInitialAppSearch('');
+      setActiveView('apps');
   };
 
   return (
@@ -64,7 +85,7 @@ const App: React.FC = () => {
                 label="Eduapps Gallery"
                 icon={<SparklesIcon />}
                 isActive={activeView === 'apps'}
-                onClick={() => setActiveView('apps')}
+                onClick={handleAppsTabClick}
               />
               <TabButton
                 label="Ask Gemini"
@@ -72,15 +93,22 @@ const App: React.FC = () => {
                 isActive={activeView === 'chat'}
                 onClick={() => setActiveView('chat')}
               />
+              <TabButton
+                label="About"
+                icon={<InfoIcon />}
+                isActive={activeView === 'about'}
+                onClick={() => setActiveView('about')}
+              />
             </div>
           </div>
           
           <div className="mt-8">
             {activeView === 'content' && <Content setActiveView={setActiveView} />}
-            {activeView === 'explore' && <ExploreVibecoding />}
+            {activeView === 'explore' && <ExploreVibecoding onToolClick={handleToolLinkClick} onAppClick={handleAppLinkClick} />}
             {activeView === 'tools' && <VibecodingToolsGallery initialSearchTerm={initialToolSearch} />}
-            {activeView === 'apps' && <EduappsGallery onToolClick={handleToolLinkClick} />}
+            {activeView === 'apps' && <EduappsGallery onToolClick={handleToolLinkClick} initialSearchTerm={initialAppSearch} />}
             {activeView === 'chat' && <ChatBot />}
+            {activeView === 'about' && <About />}
           </div>
         </main>
         

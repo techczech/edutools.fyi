@@ -10,6 +10,19 @@
       // This configures Tailwind to use class-based dark mode. It MUST come after the main CDN script.
       tailwind.config = {
         darkMode: 'class',
+        theme: {
+          extend: {
+            keyframes: {
+              fadeIn: {
+                '0%': { opacity: 0 },
+                '100%': { opacity: 1 },
+              },
+            },
+            animation: {
+              'fade-in': 'fadeIn 0.3s ease-out',
+            },
+          },
+        },
       }
     </script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />

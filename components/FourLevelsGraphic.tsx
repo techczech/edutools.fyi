@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { ClipboardIcon, CanvasIcon, DevicePhoneMobileIcon, CodeWindowIcon } from './Icons';
 
@@ -28,7 +29,11 @@ const levels = [
     }
 ];
 
-const FourLevelsGraphic: React.FC = () => {
+interface FourLevelsGraphicProps {
+    onLevelClick?: (levelIndex: number) => void;
+}
+
+const FourLevelsGraphic: React.FC<FourLevelsGraphicProps> = ({ onLevelClick }) => {
     return (
         <div className="space-y-4">
             {/* Header for larger screens */}
@@ -39,8 +44,12 @@ const FourLevelsGraphic: React.FC = () => {
             </div>
             
             <div className="space-y-4">
-                {levels.map((level) => (
-                    <div key={level.title} className="bg-gray-200/50 dark:bg-gray-700/50 p-4 rounded-xl shadow-md grid grid-cols-1 md:grid-cols-[1fr,1fr,1fr] lg:grid-cols-[2fr,2fr,3fr] gap-4 md:gap-6 items-start md:items-center">
+                {levels.map((level, index) => (
+                    <div 
+                        key={level.title} 
+                        onClick={() => onLevelClick && onLevelClick(index)}
+                        className={`bg-gray-200/50 dark:bg-gray-700/50 p-4 rounded-xl shadow-md grid grid-cols-1 md:grid-cols-[1fr,1fr,1fr] lg:grid-cols-[2fr,2fr,3fr] gap-4 md:gap-6 items-start md:items-center transition-all duration-200 ${onLevelClick ? 'cursor-pointer hover:ring-2 hover:ring-pink-500 hover:bg-gray-200 dark:hover:bg-gray-700' : ''}`}
+                    >
                         {/* Column 1: Level */}
                         <div className="flex items-center space-x-4">
                             <div className="flex-shrink-0 text-gray-800 dark:text-gray-200">
