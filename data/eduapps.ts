@@ -378,6 +378,37 @@ export const eduapps: EduApp[] = [
         screenshot: 'interactive-conference-schedule.png',
     },
     {
+        name: 'Skills Learning Companion',
+        url: 'https://skillsguide.pages.dev',
+        tagline: 'Interactive companion to the Substack post on LLM skills.',
+        description: 'A multi-mode guide that explains how LLM Skills work, pairing an explainer video with a reader, concept map, simulator, and skill builder. It turns the theory into a hands-on learning experience.',
+        keyFeatures: [
+            'Explainer video with chaptered playback and scene notes.',
+            'Interactive reader with highlights, bookmarks, and concept links.',
+            'Skill execution simulator plus a step-by-step skill builder.'
+        ],
+        idealFor: 'educators, researchers, and practitioners who want a clear, practical introduction to LLM Skills.',
+        category: 'interactive-guide',
+        madeWith: ['Claude Code'],
+        tags: ['skills', 'llm', 'learning', 'education', 'guide'],
+        screenshot: 'skills-learning-companion.png',
+    },
+    {
+        name: 'Online Reader Framework',
+        url: 'https://onlinereader.pages.dev',
+        tagline: 'Reusable reader framework for publishing teaching guides.',
+        description: 'A reusable reader framework for long-form guides with Markdown parsing, search, highlights, bookmarks, EPUB export, and llms.txt export. Built in the Codex macOS app and shipped as a core + demo architecture for reuse.',
+        keyFeatures: [
+            'Markdown-to-sections pipeline with configurable heading levels.',
+            'Reader UI with TOC, highlights, bookmarks, progress tracking, and search.',
+            'Runtime and build-time llms.txt export for LLM-friendly reading.'
+        ],
+        idealFor: 'educators and developers who want to publish readable learning materials or embed a reader in other projects.',
+        category: 'creator-tool',
+        madeWith: ['Codex (macOS)'],
+        tags: ['reading', 'framework', 'markdown', 'guide', 'education', 'llm'],
+    },
+    {
         name: "Grammatical Annotation Generator",
         url: "https://gemini.google.com/share/e1b866e30ffd",
         tagline: "Early prototype of Above the Line. ",
