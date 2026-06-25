@@ -77,7 +77,7 @@ export const vibecodingLevels: VibecodingLevel[] = [
       'Same as for level one',
       'Understanding when database may be needed',
       'Understanding when to "ask for refactor"',
-      'Understanding difference between semantic markup'
+      'Understanding difference between semantic markup',
       'Deployment basics (publishing to a URL)'
     ],
     linkedTools: ['Lovable.dev', 'Google AI Studio', 'Replit', 'Bolt.new'],
@@ -107,7 +107,7 @@ export const vibecodingLevels: VibecodingLevel[] = [
       'Git / Version Control'
     ],
     linkedTools: ['Cursor', 'Claude Code', 'Gemini CLI'],
-    linkedApps: ['ZoteroLM','Model Vibe Check','PPT to Learning'],
+    linkedApps: ['ZoteroLM','Model Vibe Check','PPT to Learning','Skills Learning Companion'],
     activities: [
       {
         id: 'task-4',
