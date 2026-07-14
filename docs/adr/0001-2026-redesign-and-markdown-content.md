@@ -1,6 +1,6 @@
 # ADR 0001: 2026 redesign and Markdown-first content
 
-Date: 14 July 2026  
+Date: 14 July 2026
 Status: Accepted
 
 ## Context
