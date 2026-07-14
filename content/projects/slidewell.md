@@ -7,6 +7,7 @@ relationships: ["built-by-ai"]
 featured: true
 order: 37
 built_with: "Electron + Vite + React"
+screenshot: "/screenshots/slidewell.png"
 links: []
 ---
 

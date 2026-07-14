@@ -7,6 +7,7 @@ relationships: ["built-by-ai"]
 featured: true
 order: 38
 built_with: "Electron + Vite + React"
+screenshot: "/screenshots/talk-weaver.png"
 links: []
 ---
 

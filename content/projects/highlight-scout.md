@@ -7,6 +7,7 @@ relationships: ["built-by-ai"]
 featured: true
 order: 36
 built_with: "Tauri + Vite + React + Tailwind"
+screenshot: "/screenshots/highlight-scout.png"
 links: []
 ---
 

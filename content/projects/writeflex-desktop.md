@@ -7,6 +7,7 @@ relationships: ["built-by-ai","powered-by-ai","delegated-to-ai"]
 featured: true
 order: 39
 built_with: "Electron + Vite + React + Bridle agent harness"
+screenshot: "/screenshots/writeflex.png"
 links: []
 ---
 

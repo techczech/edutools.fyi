@@ -1,147 +1,113 @@
+import { useEffect, useMemo, useRef, useState } from 'react';
+import ReactMarkdown from 'react-markdown';
+import { ArrowRight, BookOpen, ExternalLink, HelpCircle, Monitor, Pencil, Search, Settings, Sparkles, X } from 'lucide-react';
+import { contentRepository, type ContentDocument } from './lib/content';
+import { openInWriteFlex } from './lib/writeflex';
 
-import React, { useState, useEffect } from 'react';
-import Content from './components/Content';
-import ChatBot from './components/ChatBot';
-import ThemeToggle from './components/ThemeToggle';
-import VibecodingToolsGallery from './components/EdutoolsGallery';
-import EduappsGallery from './components/EduappsGallery';
-import ExploreVibecoding from './components/ExploreVibecoding';
-import About from './components/About';
-import { BookOpenIcon, GridIcon, SparklesIcon, BotIcon, CompassIcon, InfoIcon } from './components/Icons';
+type AppProps = { reviewEnabled?: boolean };
+const repo = contentRepository;
 
-type View = 'content' | 'tools' | 'apps' | 'chat' | 'explore' | 'about';
-
-const App: React.FC = () => {
-  const [activeView, setActiveView] = useState<View>('content');
-  const [initialToolSearch, setInitialToolSearch] = useState('');
-  const [initialAppSearch, setInitialAppSearch] = useState('');
-
-  // Handle deep linking on initial load
-  useEffect(() => {
-    const hash = window.location.hash;
-    if (hash && (hash.startsWith('#level-') || hash === '#intro')) {
-      setActiveView('explore');
-    }
-  }, []);
-
-  const handleToolLinkClick = (toolName: string) => {
-    setInitialToolSearch(toolName);
-    setActiveView('tools');
-  };
-
-  const handleAppLinkClick = (appName: string) => {
-    setInitialAppSearch(appName);
-    setActiveView('apps');
-  };
-
-  const handleToolsTabClick = () => {
-    // When the user clicks the tab directly, clear any initial search.
-    setInitialToolSearch('');
-    setActiveView('tools');
-  };
-
-  const handleAppsTabClick = () => {
-      setInitialAppSearch('');
-      setActiveView('apps');
-  };
-
-  return (
-    <div className="min-h-screen bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 transition-colors duration-300">
-      <div className="max-w-6xl mx-auto p-4 md:p-8">
-        <header className="relative text-center mb-12">
-          <div className="absolute top-0 right-0">
-            <ThemeToggle />
-          </div>
-          <h1 className="text-4xl md:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-500 via-pink-500 to-red-500">
-            Vibecoding Edutools: Explaining Concepts with Apps
-          </h1>
-          <p className="mt-4 text-lg text-gray-600 dark:text-gray-400">
-            A guide to explaining difficult concepts with AI-powered apps.
-          </p>
-        </header>
-        
-        <main>
-          <div className="mb-8">
-            <div className="flex flex-wrap border-b border-gray-200 dark:border-gray-700">
-              <TabButton
-                label="Home"
-                icon={<BookOpenIcon />}
-                isActive={activeView === 'content'}
-                onClick={() => setActiveView('content')}
-              />
-              <TabButton
-                label="Explore Vibecoding"
-                icon={<CompassIcon />}
-                isActive={activeView === 'explore'}
-                onClick={() => setActiveView('explore')}
-              />
-              <TabButton
-                label="Vibecoding Tools"
-                icon={<GridIcon />}
-                isActive={activeView === 'tools'}
-                onClick={handleToolsTabClick}
-              />
-               <TabButton
-                label="Eduapps Gallery"
-                icon={<SparklesIcon />}
-                isActive={activeView === 'apps'}
-                onClick={handleAppsTabClick}
-              />
-              <TabButton
-                label="Ask Gemini"
-                icon={<BotIcon />}
-                isActive={activeView === 'chat'}
-                onClick={() => setActiveView('chat')}
-              />
-              <TabButton
-                label="About"
-                icon={<InfoIcon />}
-                isActive={activeView === 'about'}
-                onClick={() => setActiveView('about')}
-              />
-            </div>
-          </div>
-          
-          <div className="mt-8">
-            {activeView === 'content' && <Content setActiveView={setActiveView} />}
-            {activeView === 'explore' && <ExploreVibecoding onToolClick={handleToolLinkClick} onAppClick={handleAppLinkClick} />}
-            {activeView === 'tools' && <VibecodingToolsGallery initialSearchTerm={initialToolSearch} />}
-            {activeView === 'apps' && <EduappsGallery onToolClick={handleToolLinkClick} initialSearchTerm={initialAppSearch} />}
-            {activeView === 'chat' && <ChatBot />}
-            {activeView === 'about' && <About />}
-          </div>
-        </main>
-        
-        <footer className="text-center mt-16 py-8 border-t border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400">
-            <p>&copy; 2025 Dominik Lukeš. This work is licensed under a <a href="http://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer" className="underline hover:text-pink-500 dark:hover:text-pink-400">Creative Commons Attribution 4.0 International License</a>.</p>
-            <p className="mt-2 text-sm">Created with Gemini</p>
-        </footer>
-      </div>
-    </div>
-  );
-};
-
-interface TabButtonProps {
-  label: string;
-  icon: React.ReactNode;
-  isActive: boolean;
-  onClick: () => void;
+function SourceEditable({ document, enabled, children, className = '' }: { document: ContentDocument; enabled: boolean; children: React.ReactNode; className?: string }) {
+  const ui = repo.site.data.ui;
+  const [state, setState] = useState<'idle'|'success'|'error'>('idle');
+  return <div className={`source-editable ${className}`} data-source={document.sourcePath}>
+    {enabled && <button className="edit-source" aria-label={`${ui.edit_in_writeflex}: ${document.data.title}`} title={state === 'success' ? ui.edit_success : state === 'error' ? ui.edit_error : ui.edit_in_writeflex} onClick={async () => {
+      try { await openInWriteFlex(document.sourcePath); setState('success'); }
+      catch { setState('error'); }
+    }}><Pencil size={15} /></button>}
+    {children}
+  </div>;
 }
 
-const TabButton: React.FC<TabButtonProps> = ({ label, icon, isActive, onClick }) => {
-  const activeClasses = 'border-pink-500 text-pink-600 dark:text-pink-400';
-  const inactiveClasses = 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-300 dark:hover:border-gray-600';
-  
-  return (
-    <button
-      onClick={onClick}
-      className={`flex items-center gap-2 px-4 py-3 border-b-2 font-medium text-sm transition-colors duration-200 ${isActive ? activeClasses : inactiveClasses}`}
-      aria-current={isActive ? 'page' : undefined}
-    >
-      {icon}
-      {label}
-    </button>
-  );
-};
+function Markdown({ children }: { children: string }) { return <div className="markdown"><ReactMarkdown>{children}</ReactMarkdown></div> }
 
-export default App;
+export default function App({ reviewEnabled = import.meta.env.DEV }: AppProps) {
+  const ui = repo.site.data.ui;
+  const [query, setQuery] = useState('');
+  const [category, setCategory] = useState('');
+  const [relationship, setRelationship] = useState('');
+  const [sort, setSort] = useState('featured');
+  const [settingsOpen, setSettingsOpen] = useState(false);
+  const [helpOpen, setHelpOpen] = useState(false);
+  const storage = typeof window !== 'undefined' ? window.localStorage : undefined;
+  const [theme, setTheme] = useState(() => storage?.getItem('edutools-theme') || 'light');
+  const [compact, setCompact] = useState(() => storage?.getItem('edutools-compact') === 'true');
+  const searchRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    document.documentElement.dataset.theme = theme;
+    storage?.setItem('edutools-theme', theme);
+  }, [theme]);
+  useEffect(() => {
+    document.title = repo.site.data.document_title;
+    const description = document.querySelector('meta[name="description"]');
+    description?.setAttribute('content', repo.site.data.description);
+  }, []);
+  useEffect(() => { storage?.setItem('edutools-compact', String(compact)); }, [compact]);
+  useEffect(() => {
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === '/' && !(event.target instanceof HTMLInputElement)) { event.preventDefault(); searchRef.current?.focus(); }
+      if (event.key === '?' && !(event.target instanceof HTMLInputElement)) setHelpOpen(true);
+      if (event.key === ',' && !(event.target instanceof HTMLInputElement)) setSettingsOpen(true);
+      if (event.key === 'Escape') { setHelpOpen(false); setSettingsOpen(false); }
+    };
+    window.addEventListener('keydown', onKey); return () => window.removeEventListener('keydown', onKey);
+  }, []);
+
+  const categoryMap = new Map(repo.categories.map((item) => [item.data.id, item]));
+  const relationshipMap = new Map(repo.relationships.map((item) => [item.data.id, item]));
+  const catalogue = useMemo(() => repo.catalogue.filter((item) => {
+    const haystack = `${item.data.title} ${item.body} ${item.data.built_with ?? ''} ${item.data.educational_job ?? ''}`.toLowerCase();
+    return haystack.includes(query.toLowerCase()) && (!category || item.data.category === category) && (!relationship || item.data.relationships?.includes(relationship));
+  }).sort((a,b) => sort === 'title' ? a.data.title.localeCompare(b.data.title) : Number(Boolean(b.data.featured)) - Number(Boolean(a.data.featured)) || (a.data.order ?? 999) - (b.data.order ?? 999)), [query, category, relationship, sort]);
+
+  return <>
+    <a className="skip-link" href="#main">{ui.skip_to_content}</a>
+    <header className="site-header">
+      <a className="brand" href="/">{repo.site.data.title}<span> / {repo.site.data.edition}</span></a>
+      <nav>{repo.site.data.navigation.map((link: any) => <a key={link.href} href={link.href}>{link.label}</a>)}</nav>
+      <div className="header-tools">
+        <button aria-label={ui.settings} onClick={() => setSettingsOpen(true)}><Settings /></button>
+        <button aria-label={ui.keyboard_help} onClick={() => setHelpOpen(true)}><HelpCircle /></button>
+      </div>
+    </header>
+    {reviewEnabled && <aside className="review-ribbon"><Pencil size={14}/><span><strong>{ui.local_review_title}</strong> — {ui.local_review_body}</span></aside>}
+    <main id="main">
+      <SourceEditable document={repo.homepage} enabled={reviewEnabled} className="hero">
+        <div className="hero-copy"><p className="eyebrow">{repo.homepage.data.eyebrow}</p><h1>{repo.homepage.data.title}</h1><p className="hero-intro">{repo.homepage.data.intro}</p>
+          <div className="actions"><a className="button primary" href={repo.homepage.data.primary_action.href}>{repo.homepage.data.primary_action.label}<ArrowRight/></a><a className="button" href={repo.homepage.data.secondary_action.href}>{repo.homepage.data.secondary_action.label}</a></div></div>
+        <div className="hero-diagram"><div className="old-boundary"><span>{repo.site.data.title}</span></div><div className="wide-field">{repo.categories.map((item, i) => <span key={item.data.id} style={{'--i': i} as React.CSSProperties}>{item.data.short_label}</span>)}</div></div>
+      </SourceEditable>
+
+      <section id="possibilities" className="section possibilities"><SourceEditable document={repo.homepage} enabled={reviewEnabled}><Markdown>{repo.homepage.body.split('## Four kinds of possibility')[0]}</Markdown></SourceEditable>
+        <div className="section-heading"><p className="kicker">{ui.possibilities_number}</p><h2>{repo.homepage.body.match(/## Four kinds of possibility/)?.[0].replace('## ','')}</h2></div>
+        <div className="category-grid">{repo.categories.map((item, index) => <SourceEditable key={item.data.id} document={item} enabled={reviewEnabled} className={`category-card category-${index}`}><article data-testid="category"><span className="number">0{index+1}</span><h3>{item.data.title}</h3><p className="short">{item.data.short_label}</p><Markdown>{item.body}</Markdown></article></SourceEditable>)}</div>
+      </section>
+
+      <section className="section relationships"><div className="section-heading"><p className="kicker">{ui.relationships_number}</p><h2>{repo.homepage.body.match(/## Three relationships with AI/)?.[0].replace('## ','')}</h2></div>
+        <div className="relationship-grid">{repo.relationships.map((item, index) => <SourceEditable key={item.data.id} document={item} enabled={reviewEnabled} className={`relationship-card relation-${index}`}><article data-testid="relationship"><Sparkles/><h3>{item.data.title}</h3><p className="short">{item.data.short_label}</p><Markdown>{item.body}</Markdown>{item.data.warning && <p className="warning">{item.data.warning}</p>}</article></SourceEditable>)}</div>
+      </section>
+
+      <section id="projects" className="section catalogue-section"><div className="section-heading"><p className="kicker">{ui.catalogue_number}</p><h2>{ui.explore_catalogue}</h2></div>
+        <div className="catalogue-controls"><label><span>{ui.search_label}</span><div className="input-wrap"><Search/><input ref={searchRef} aria-label={ui.search_label} placeholder={ui.search_placeholder} value={query} onChange={(e)=>setQuery(e.target.value)}/></div></label>
+          <label><span>{ui.category_filter_label}</span><select value={category} onChange={(e)=>setCategory(e.target.value)}><option value="">{ui.all_categories}</option>{repo.categories.map(item=><option key={item.data.id} value={item.data.id}>{item.data.title}</option>)}</select></label>
+          <label><span>{ui.relationship_filter_label}</span><select value={relationship} onChange={(e)=>setRelationship(e.target.value)}><option value="">{ui.all_relationships}</option>{repo.relationships.map(item=><option key={item.data.id} value={item.data.id}>{item.data.title}</option>)}</select></label>
+          <label><span>{ui.sort_label}</span><select value={sort} onChange={(e)=>setSort(e.target.value)}><option value="featured">{ui.sort_featured}</option><option value="title">{ui.sort_title}</option></select></label></div>
+        <p className="result-count" aria-live="polite">{catalogue.length} {ui.results_label}</p>
+        <div data-testid="catalogue" className={`catalogue ${compact ? 'compact' : ''}`}>{catalogue.length ? catalogue.map((item) => <SourceEditable key={`${item.data.kind}-${item.data.id}`} document={item} enabled={reviewEnabled} className="catalogue-source"><article data-testid="catalogue-card" className="catalogue-card">
+          <div><p className="card-meta">{categoryMap.get(item.data.category)?.data.title} · {item.data.kind === 'skill' ? ui.public_skill_label : item.data.featured ? ui.featured_label : item.data.kind}</p><h3>{item.data.title}</h3><p>{item.body}</p></div>
+          <div className="card-side"><div className="chips">{item.data.relationships?.map((id:string)=><span key={id}>{relationshipMap.get(id)?.data.title}</span>)}</div>{item.data.built_with && <p><strong>{ui.built_with_label}:</strong> {item.data.built_with}</p>}{item.data.source_url && <a href={item.data.source_url}>{ui.view_source}<ExternalLink/></a>}{item.data.links?.[0] && <a href={item.data.links[0].url}>{ui.visit_project}<ExternalLink/></a>}</div>
+        </article></SourceEditable>) : <div className="empty"><h3>{ui.no_results_title}</h3><p>{ui.no_results_body}</p></div>}</div>
+      </section>
+
+      <section className="section flagships"><div className="section-heading"><Monitor/><h2>{repo.categories.find(item=>item.data.id==='desktop-apps')?.data.title}</h2></div><div className="flagship-grid">{repo.projects.filter(item=>item.data.featured).map((item)=><SourceEditable key={item.data.id} document={item} enabled={reviewEnabled} className="flagship"><article><div className="app-window"><div className="window-bar"><i/><i/><i/></div>{item.data.screenshot ? <img src={item.data.screenshot} alt="" /> : <Monitor/>}</div><p className="card-meta">{item.data.built_with}</p><h3>{item.data.title}</h3><p>{item.body}</p></article></SourceEditable>)}</div></section>
+
+      <section id="skills" className="section getting"><div className="section-heading"><BookOpen/><h2>{repo.gettingStarted.find(item=>item.sourcePath.endsWith('/index.md'))?.data.title}</h2></div><div className="guide-grid">{repo.gettingStarted.filter(item=>!item.sourcePath.endsWith('/index.md')).map(item=><SourceEditable key={item.sourcePath} document={item} enabled={reviewEnabled} className="guide"><article><h3>{item.data.title}</h3><p>{item.data.description}</p><Markdown>{item.body}</Markdown></article></SourceEditable>)}</div></section>
+
+      <section className="section journey"><SourceEditable document={repo.journey.find(item=>item.sourcePath.endsWith('/index.md'))!} enabled={reviewEnabled}><div className="journey-inner"><div><p className="kicker">{ui.journey_number}</p><h2>{repo.journey.find(item=>item.sourcePath.endsWith('/index.md'))?.data.title}</h2><p>{repo.journey.find(item=>item.sourcePath.endsWith('/index.md'))?.data.description}</p><Markdown>{repo.journey.find(item=>item.sourcePath.endsWith('/index.md'))?.body ?? ''}</Markdown></div><a className="archive-card" href={repo.journey.find(item=>item.data.archive_path)?.data.archive_path}><span>{ui.archive_label}</span><strong>{repo.journey.find(item=>item.data.year)?.data.year}</strong><ArrowRight/></a></div></SourceEditable></section>
+    </main>
+    <footer><p>{repo.site.body}</p>{repo.site.data.footer_links.map((link:any)=><a key={link.href} href={link.href}>{link.label}</a>)}</footer>
+    {settingsOpen && <div className="dialog-backdrop" role="presentation"><section role="dialog" aria-modal="true" aria-label={ui.settings} className="dialog"><button className="dialog-close" aria-label={ui.close} onClick={()=>setSettingsOpen(false)}><X/></button><h2>{ui.settings}</h2><fieldset><legend>{ui.theme}</legend>{['light','dark','system'].map(value=><label key={value}><input type="radio" name="theme" value={value} checked={theme===value} onChange={()=>setTheme(value)}/>{ui[value]}</label>)}</fieldset><label><input type="checkbox" checked={compact} onChange={(e)=>setCompact(e.target.checked)}/>{ui.compact_catalogue}</label></section></div>}
+    {helpOpen && <div className="dialog-backdrop" role="presentation"><section role="dialog" aria-modal="true" aria-label={ui.keyboard_help} className="dialog"><button className="dialog-close" aria-label={ui.close} onClick={()=>setHelpOpen(false)}><X/></button><h2>{ui.keyboard_help}</h2><dl>{ui.shortcuts.map((item:any)=><div key={item.keys}><dt><kbd>{item.keys}</kbd></dt><dd>{item.label}</dd></div>)}</dl></section></div>}
+  </>;
+}
