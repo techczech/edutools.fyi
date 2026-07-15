@@ -27,6 +27,7 @@ ui:
   catalogue_title: "Tools already built."
   catalogue_intro: "Filter the examples by type, by how AI is involved or by the tool used to build them."
   relationships_eyebrow: "Three ways AI is involved"
+  ai_involvement_divider: "AI Involvement"
   featured_eyebrow: "Featured examples"
   featured_title: "Three from each type."
   featured_intro: "Twelve examples: three from each of the four types."

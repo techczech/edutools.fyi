@@ -29,6 +29,8 @@ describe('EduTools 2026 homepage', () => {
     expect(columns.map((column) => within(column).getByRole('heading', { level: 2 }).textContent)).toEqual(markdownHeadings);
     expect(columns.map((column) => within(column).getAllByRole('listitem').length)).toEqual([4, 3, 2]);
     expect(within(summary).getAllByTestId('summary-item-copy')).toHaveLength(9);
+    expect(within(screen.getByTestId('ai-involvement-divider')).getByRole('heading', { level: 2 }))
+      .toHaveTextContent('AI Involvement');
     expect(within(screen.getByTestId('ai-modes-section')).getAllByTestId('relationship')).toHaveLength(3);
   });
 

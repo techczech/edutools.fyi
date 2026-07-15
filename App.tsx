@@ -150,6 +150,8 @@ export default function App({ reviewEnabled = import.meta.env.DEV }: AppProps) {
         {sections.map((section) => <SourceEditable key={section.title} document={repo.homepage} enabled={reviewEnabled} className="homepage-summary-column"><div data-testid="homepage-summary-column"><HomepageCopy section={section}/></div></SourceEditable>)}
       </div></section>
 
+      <SourceEditable document={repo.site} enabled={reviewEnabled} className="ai-involvement-divider-source"><section className="ai-involvement-divider" data-testid="ai-involvement-divider"><div className="wrap"><h2>{ui.ai_involvement_divider}</h2></div></section></SourceEditable>
+
       <section className="ai-mode-band" data-testid="ai-modes-section"><div className="wrap ai-modes">{repo.relationships.map((item, index) => <SourceEditable key={item.data.id} document={item} enabled={reviewEnabled} className={`ai-mode ${item.data.id === 'powered-by-ai' ? 'runtime' : ''}`}><article data-testid="relationship"><span className="num">0{index + 1}</span><h3>{item.data.title}</h3><p className="short">{item.data.short_label}</p><Markdown>{item.body}</Markdown>{item.data.warning && <p className="warning">{item.data.warning}</p>}</article></SourceEditable>)}</div></section>
 
       <section id="projects" className="catalogue-section"><div className="wrap"><div className="section-head"><div><p className="eyebrow">{ui.catalogue_eyebrow}</p><h2>{ui.catalogue_title}</h2></div><p>{ui.catalogue_intro}</p></div>
