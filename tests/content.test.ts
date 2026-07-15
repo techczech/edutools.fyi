@@ -111,10 +111,16 @@ describe('Markdown content repository', () => {
       .filter((item) => !item.data.source_url && !item.data.links?.[0]?.url)
       .map((item) => item.data.id)
       .sort();
-    expect(pending).toEqual([
-      'codex-lens',
-      'keymaster',
-      'rodney-brooks-prediction-tracker',
-    ]);
+    expect(pending).toEqual(['codex-lens']);
+
+    const publicUrls = new Map(repository.projects.map((item) => [item.data.id, item.data.links?.[0]?.url]));
+    expect(publicUrls.get('corpus-for-non-linguists')).toBe('https://corpusexplorer.researchity.net/');
+    expect(publicUrls.get('linguacheck')).toBe('https://contextual-verified-translate-cjmr775lua-uw.a.run.app/');
+    expect(publicUrls.get('keymaster')).toBe('https://keymaster.edutools.fyi/');
+    expect(publicUrls.get('rodney-brooks-prediction-tracker')).toBe('https://brookspredictiontracker.semanticmachines.fyi/');
+    expect(publicUrls.get('slidewell')).toBe('https://github.com/techczech/slidewell/releases/latest');
+    expect(publicUrls.get('talk-weaver')).toBe('https://github.com/techczech/talk-weaver/releases/latest');
+    expect(publicUrls.get('vscodezotero')).toBe('https://github.com/techczech/zotero-agent-bridge/releases/latest');
+    expect(publicUrls.get('zoterolm')).toBe('https://github.com/techczech/zoterolm/releases/latest');
   });
 });

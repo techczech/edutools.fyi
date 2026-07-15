@@ -10,8 +10,8 @@ order: 31
 built_with: "Google AI Studio"
 link_status: "public"
 links:
-  - label: "Open project"
-    url: "https://github.com/techczech/corpus-for-non-linguists"
+  - label: "Open tool"
+    url: "https://corpusexplorer.researchity.net/"
 ---
 
 Introduces corpus methods through a guided, embeddable learning object with explanation, media and quizzes.

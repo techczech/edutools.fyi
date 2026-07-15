@@ -9,8 +9,8 @@ order: 42
 built_with: "Desktop agent"
 screenshot: "/screenshots/projects/zoterolm.png"
 links:
-  - label: "Open project"
-    url: "https://github.com/techczech/zoterolm"
+  - label: "Download ZoteroLM"
+    url: "https://github.com/techczech/zoterolm/releases/latest"
 ---
 
 Brings model-assisted summarisation directly into the Zotero research library.
