@@ -20,10 +20,6 @@ order: 2
 
 /#projects
 
-## How to start
-
-/#getting-started
-
 ## About
 
 /about/

@@ -43,7 +43,7 @@ describe('Markdown content repository', () => {
     ]);
     expect(repository.interfaceCopy.ui.search_placeholder).toBeTruthy();
     expect(repository.interfaceCopy.navigation.map((item) => item.label)).toEqual([
-      'Types of tools', 'AI involvement', 'Featured apps', 'Catalogue', 'How to start', 'About',
+      'Types of tools', 'AI involvement', 'Featured apps', 'Catalogue', 'About',
     ]);
     expect(repository.projects.every((item) => !/(Vite|React|Tailwind|Electron|Tauri|TypeScript|Astro|Gemini API|monorepo)/i.test(item.data.built_with ?? ''))).toBe(true);
     expect(repository.projects.some((item) => item.data.built_with === 'Desktop agent')).toBe(true);

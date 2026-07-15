@@ -136,8 +136,6 @@ export default function App({ reviewEnabled = import.meta.env.DEV }: AppProps) {
     return haystack.includes(query.toLowerCase()) && (!category || item.data.category === category) && (!relationship || item.data.relationships?.includes(relationship));
   }).sort((a,b) => sort === 'title' ? a.data.title.localeCompare(b.data.title) : Number(Boolean(b.data.featured)) - Number(Boolean(a.data.featured)) || (a.data.order ?? 999) - (b.data.order ?? 999)), [query, category, relationship, sort]);
 
-  const gettingStarted = repo.gettingStarted.find((item) => item.sourcePath.endsWith('/index.md'))!;
-
   return <>
     <a className="skip-link" href="#main">{ui.skip_to_content}</a>
     <div className="topnote"><div className="wrap"><span>{site.title} / {ui.field_guide_label}</span><span>{repo.site.data.edition}</span></div></div>
@@ -176,8 +174,6 @@ export default function App({ reviewEnabled = import.meta.env.DEV }: AppProps) {
         <p className="result-count" aria-live="polite">{catalogue.length} {ui.results_label}</p>
         <div data-testid="catalogue" className={`catalogue ${compact ? 'compact' : ''}`}>{catalogue.length ? catalogue.map((item) => <SourceEditable key={`${item.data.kind}-${item.data.id}`} document={item} enabled={reviewEnabled} className="catalogue-source"><article data-testid="catalogue-card" className="catalogue-card"><div className="project-top"><span className="cat">{categoryMap.get(item.data.category)?.data.title}</span><div className="chips">{item.data.relationships?.map((id:string)=><span key={id}>{relationshipMap.get(id)?.data.title}</span>)}</div></div><CatalogueMedia item={item} openLabel={ui.open_preview_label}/><div><h3>{item.data.title}</h3><p>{item.body}</p></div><div className="card-foot">{item.data.built_with && <p><strong>{ui.built_with_label}:</strong> {item.data.built_with}</p>}{item.data.source_url && <a className="card-link" href={item.data.source_url} target="_blank" rel="noreferrer">{ui.view_source}<ExternalLink/></a>}{item.data.links?.[0] && <a className="card-link" href={item.data.links[0].url} target="_blank" rel="noreferrer">{ui.visit_project}<ExternalLink/></a>}</div></article></SourceEditable>) : <div className="empty"><h3>{ui.no_results_title}</h3><p>{ui.no_results_body}</p></div>}</div>
       </div></section></SourceEditable>
-
-      <SourceEditable document={interfaceDocument('getting-started')} enabled={reviewEnabled} className="getting-started-source"><section id="getting-started" className="start"><div className="wrap start-grid"><SourceEditable document={gettingStarted} enabled={reviewEnabled} className="start-intro"><p className="eyebrow">{gettingStarted.data.title}</p><h2>{ui.getting_started_intro}</h2><Markdown>{gettingStarted.body}</Markdown></SourceEditable><div className="paths">{repo.gettingStarted.filter(item=>!item.sourcePath.endsWith('/index.md')).map((item,index)=><SourceEditable key={item.sourcePath} document={item} enabled={reviewEnabled} className="path"><article><div className="path-num">0{index+1}</div><div className="path-body"><h3>{item.data.title}</h3><p>{item.data.description}</p><Markdown>{item.body}</Markdown></div></article></SourceEditable>)}</div></div></section></SourceEditable>
 
     </main>}
 

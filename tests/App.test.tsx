@@ -31,13 +31,14 @@ describe('EduTools 2026 homepage', () => {
       '/#ai-involvement',
       '/#featured',
       '/#projects',
-      '/#getting-started',
       '/about/',
     ]);
 
     for (const destination of destinations.filter((href) => href?.startsWith('/#'))) {
       expect(document.querySelector(destination!.slice(1))).toBeInTheDocument();
     }
+
+    expect(document.getElementById('getting-started')).not.toBeInTheDocument();
   });
 
   it('opens the top navigation Markdown document from local review mode', () => {
