@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { buildContentRepository, parseDocument } from '../lib/content';
+import { buildContentRepository, parseDocument, parseHeadingDocument } from '../lib/content';
 
 const fixture = `---\nid: example\ntitle: Example\n---\n\nHello **world**.`;
 
@@ -7,6 +7,23 @@ describe('Markdown content repository', () => {
   it('preserves frontmatter, body and source path', () => {
     expect(parseDocument('content/projects/example.md', fixture)).toMatchObject({
       sourcePath: 'content/projects/example.md', data: { id: 'example', title: 'Example' }, body: 'Hello **world**.',
+    });
+  });
+
+  it('derives editable titles and named fields from Markdown headings', () => {
+    const document = parseDocument('content/interface/example.md', `---\nid: example\n---\n# Visible title\n\n## Introduction\n\nEditable introduction.\n\n## Action label\n\nOpen example`);
+
+    expect(document.data.title).toBe('Visible title');
+    expect(parseHeadingDocument(document)).toEqual({
+      title: 'Visible title',
+      fields: {
+        introduction: 'Editable introduction.',
+        action_label: 'Open example',
+      },
+      sections: [
+        { title: 'Introduction', value: 'Editable introduction.' },
+        { title: 'Action label', value: 'Open example' },
+      ],
     });
   });
 
@@ -19,7 +36,15 @@ describe('Markdown content repository', () => {
     expect(new Set(repository.catalogue.map((item) => item.data.id)).size).toBe(57);
     expect(repository.categories.map((item) => item.data.id)).toEqual(['interactive-learning-objects','content-distribution','agent-skills','desktop-apps']);
     expect(repository.relationships.map((item) => item.data.id)).toEqual(['built-by-ai','powered-by-ai','delegated-to-ai']);
-    expect(repository.site.data.ui.search_placeholder).toBeTruthy();
+    expect(repository.site.data).toEqual({ edition: 2026 });
+    expect(repository.interface.map((item) => item.data.id)).toEqual([
+      'site', 'navigation', 'footer', 'ai-involvement', 'featured', 'catalogue',
+      'getting-started', 'review', 'settings', 'shortcuts',
+    ]);
+    expect(repository.interfaceCopy.ui.search_placeholder).toBeTruthy();
+    expect(repository.interfaceCopy.navigation.map((item) => item.label)).toEqual([
+      'Types of tools', 'AI involvement', 'Featured apps', 'Catalogue', 'How to start', 'About',
+    ]);
     expect(repository.projects.every((item) => !/(Vite|React|Tailwind|Electron|Tauri|TypeScript|Astro|Gemini API|monorepo)/i.test(item.data.built_with ?? ''))).toBe(true);
     expect(repository.projects.some((item) => item.data.built_with === 'Desktop agent')).toBe(true);
     expect(repository.projects.some((item) => item.data.built_with === 'Google AI Studio')).toBe(true);
@@ -72,8 +97,8 @@ describe('Markdown content repository', () => {
       data.title, data.description, data.tagline, data.short_label, data.territory_label, data.warning, body,
     ]);
     const siteLabels = [
-      ...repository.site.data.navigation.map((item: { label: string }) => item.label),
-      ...Object.values(repository.site.data.ui).flatMap((value) => typeof value === 'string' ? [value] : []),
+      ...repository.interfaceCopy.navigation.map((item) => item.label),
+      ...Object.values(repository.interfaceCopy.ui).flatMap((value) => typeof value === 'string' ? [value] : []),
     ];
     const publicCopy = [...visibleFields, ...siteLabels].filter(Boolean).join('\n');
     expect(publicCopy).not.toMatch(/\b(boundar(?:y|ies)|surfaces?|relationships?|runtime AI|human (?:purpose|judg(?:e)?ment)|good delegation|impressive first demonstration)\b/i);

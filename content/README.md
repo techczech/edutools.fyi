@@ -2,9 +2,12 @@
 
 Every visitor-facing word on EduTools lives under `content/`. React and TypeScript may select, validate and render this material, but must not introduce labels, descriptions, links, badges, warnings or editorial prose.
 
+Visitor-facing text is Markdown, not YAML. A document's visible title is its `#` heading. Named interface text lives below `##` headings. YAML frontmatter is reserved for machine structure such as IDs, categories, ordering and selection state.
+
 ## Collections
 
-- `site.md` — site identity, navigation and global calls to action.
+- `site.md` — structural site data such as the edition.
+- `interface/` — small heading-based documents for site identity, navigation, footer, section introductions, controls, review text, settings and shortcuts.
 - `homepage.md` — homepage sequence and framing.
 - `categories/` — the four primary catalogue categories.
 - `relationships/` — the three overlapping relationships with AI.
@@ -17,7 +20,7 @@ Every visitor-facing word on EduTools lives under `content/`. React and TypeScri
 
 ## Record rules
 
-Frontmatter stores structured fields used for filtering and display. The Markdown body supplies the visitor-facing description. Empty links are omitted by the renderer; they are never replaced with guessed URLs.
+Frontmatter stores structured fields used for filtering and display. The Markdown body supplies visitor-facing text. Empty links are omitted by the renderer; they are never replaced with guessed URLs.
 
 Project records use:
 

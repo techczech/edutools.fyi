@@ -6,11 +6,23 @@ import { writeFlexUrl } from './lib/writeflex';
 
 type AppProps = { reviewEnabled?: boolean };
 const repo = contentRepository;
+const interfaceDocuments = new Map(repo.interface.map((document) => [document.data.id, document]));
+
+function interfaceDocument(id: string): ContentDocument {
+  const document = interfaceDocuments.get(id);
+  if (!document) throw new Error(`Missing interface document: ${id}`);
+  return document;
+}
+
+function SourceEditLink({ document, enabled, className = '' }: { document: ContentDocument; enabled: boolean; className?: string }) {
+  if (!enabled) return null;
+  const ui = repo.interfaceCopy.ui;
+  return <a className={`edit-source ${className}`} href={writeFlexUrl(document.sourcePath)} aria-label={`${ui.edit_in_writeflex}: ${document.data.title}`} title={ui.edit_in_writeflex}><Pencil size={15}/></a>;
+}
 
 function SourceEditable({ document, enabled, children, className = '' }: { document: ContentDocument; enabled: boolean; children: React.ReactNode; className?: string }) {
-  const ui = repo.site.data.ui;
   return <div className={`source-editable ${className}`} data-source={document.sourcePath}>
-    {enabled && <a className="edit-source" href={writeFlexUrl(document.sourcePath)} aria-label={`${ui.edit_in_writeflex}: ${document.data.title}`} title={ui.edit_in_writeflex}><Pencil size={15}/></a>}
+    <SourceEditLink document={document} enabled={enabled}/>
     {children}
   </div>;
 }
@@ -81,7 +93,8 @@ function FeaturedCard({ item, categoryTitle, reviewEnabled, ui }: {
 }
 
 export default function App({ reviewEnabled = import.meta.env.DEV }: AppProps) {
-  const ui = repo.site.data.ui;
+  const site = repo.interfaceCopy;
+  const ui = site.ui;
   const sections = homepageSections();
   const about = repo.documents.find((item) => item.sourcePath === 'content/about.md')!;
   const isAbout = typeof window !== 'undefined' && /^\/about\/?$/.test(window.location.pathname);
@@ -98,7 +111,7 @@ export default function App({ reviewEnabled = import.meta.env.DEV }: AppProps) {
   const searchRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => { document.documentElement.dataset.theme = theme; storage?.setItem('edutools-theme', theme); }, [theme]);
-  useEffect(() => { document.title = isAbout ? `${about.data.title} — ${repo.site.data.title}` : repo.site.data.document_title; document.querySelector('meta[name="description"]')?.setAttribute('content', repo.site.data.description); }, [about.data.title, isAbout]);
+  useEffect(() => { document.title = isAbout ? `${about.data.title} — ${site.title}` : site.documentTitle; document.querySelector('meta[name="description"]')?.setAttribute('content', site.description); }, [about.data.title, isAbout, site.description, site.documentTitle, site.title]);
   useEffect(() => { storage?.setItem('edutools-compact', String(compact)); }, [compact]);
   useEffect(() => {
     const onKey = (event: KeyboardEvent) => {
@@ -127,11 +140,11 @@ export default function App({ reviewEnabled = import.meta.env.DEV }: AppProps) {
 
   return <>
     <a className="skip-link" href="#main">{ui.skip_to_content}</a>
-    <div className="topnote"><div className="wrap"><span>{repo.site.data.title} / {ui.field_guide_label}</span><span>{repo.site.data.edition}</span></div></div>
+    <div className="topnote"><div className="wrap"><span>{site.title} / {ui.field_guide_label}</span><span>{repo.site.data.edition}</span></div></div>
     <header className="site-header"><div className="wrap header-inner">
-      <a className="brand" href="/">{repo.site.data.title.toLowerCase()}.fyi</a>
-      <nav>{repo.site.data.navigation.map((link: any) => <a key={link.href} href={link.href}>{link.label}</a>)}</nav>
-      <div className="header-tools"><button aria-label={ui.settings} onClick={() => setSettingsOpen(true)}><Settings/></button><button aria-label={ui.keyboard_help} onClick={() => setHelpOpen(true)}><HelpCircle/></button></div>
+      <a className="brand" href="/">{site.title.toLowerCase()}.fyi</a>
+      <nav className="section-navigation">{site.navigation.map((link) => <a key={link.href} href={link.href}>{link.label}</a>)}</nav>
+      <div className="header-tools"><SourceEditLink document={interfaceDocument('navigation')} enabled={reviewEnabled} className="header-edit-source"/><button aria-label={ui.settings} onClick={() => setSettingsOpen(true)}><Settings/></button><button aria-label={ui.keyboard_help} onClick={() => setHelpOpen(true)}><HelpCircle/></button></div>
     </div></header>
     {reviewEnabled && <aside className="review-ribbon"><Pencil size={14}/><span><strong>{ui.local_review_title}</strong> — {ui.local_review_body}</span></aside>}
 
@@ -150,25 +163,25 @@ export default function App({ reviewEnabled = import.meta.env.DEV }: AppProps) {
         {sections.map((section) => <SourceEditable key={section.title} document={repo.homepage} enabled={reviewEnabled} className="homepage-summary-column"><div data-testid="homepage-summary-column"><HomepageCopy section={section}/></div></SourceEditable>)}
       </div></section>
 
-      <SourceEditable document={repo.site} enabled={reviewEnabled} className="ai-involvement-divider-source"><section className="ai-involvement-divider" data-testid="ai-involvement-divider"><div className="wrap"><h2>{ui.ai_involvement_divider}</h2></div></section></SourceEditable>
+      <SourceEditable document={interfaceDocument('ai-involvement')} enabled={reviewEnabled} className="ai-involvement-divider-source"><section id="ai-involvement" className="ai-involvement-divider" data-testid="ai-involvement-divider"><div className="wrap"><h2>{ui.ai_involvement_divider}</h2></div></section></SourceEditable>
 
       <section className="ai-mode-band" data-testid="ai-modes-section"><div className="wrap ai-modes">{repo.relationships.map((item, index) => <SourceEditable key={item.data.id} document={item} enabled={reviewEnabled} className={`ai-mode ${item.data.id === 'powered-by-ai' ? 'runtime' : ''}`}><article data-testid="relationship"><span className="num">0{index + 1}</span><h3>{item.data.title}</h3><p className="short">{item.data.short_label}</p><Markdown>{item.body}</Markdown>{item.data.warning && <p className="warning">{item.data.warning}</p>}</article></SourceEditable>)}</div></section>
 
-      <section id="projects" className="catalogue-section"><div className="wrap"><div className="section-head"><div><p className="eyebrow">{ui.catalogue_eyebrow}</p><h2>{ui.catalogue_title}</h2></div><p>{ui.catalogue_intro}</p></div>
-        <div className="catalogue-controls"><label><span>{ui.search_label}</span><div className="input-wrap"><Search/><input ref={searchRef} aria-label={ui.search_label} placeholder={ui.search_placeholder} value={query} onChange={(e)=>setQuery(e.target.value)}/></div></label><label><span>{ui.category_filter_label}</span><select value={category} onChange={(e)=>setCategory(e.target.value)}><option value="">{ui.all_categories}</option>{repo.categories.map(item=><option key={item.data.id} value={item.data.id}>{item.data.title}</option>)}</select></label><label><span>{ui.relationship_filter_label}</span><select value={relationship} onChange={(e)=>setRelationship(e.target.value)}><option value="">{ui.all_relationships}</option>{repo.relationships.map(item=><option key={item.data.id} value={item.data.id}>{item.data.title}</option>)}</select></label><label><span>{ui.sort_label}</span><select value={sort} onChange={(e)=>setSort(e.target.value)}><option value="featured">{ui.sort_featured}</option><option value="title">{ui.sort_title}</option></select></label></div>
-        <p className="result-count" aria-live="polite">{catalogue.length} {ui.results_label}</p>
-        <div data-testid="catalogue" className={`catalogue ${compact ? 'compact' : ''}`}>{catalogue.length ? catalogue.map((item) => <SourceEditable key={`${item.data.kind}-${item.data.id}`} document={item} enabled={reviewEnabled} className="catalogue-source"><article data-testid="catalogue-card" className="catalogue-card"><div className="project-top"><span className="cat">{categoryMap.get(item.data.category)?.data.title}</span><div className="chips">{item.data.relationships?.map((id:string)=><span key={id}>{relationshipMap.get(id)?.data.title}</span>)}</div></div><CatalogueMedia item={item} openLabel={ui.open_preview_label}/><div><h3>{item.data.title}</h3><p>{item.body}</p></div><div className="card-foot">{item.data.built_with && <p><strong>{ui.built_with_label}:</strong> {item.data.built_with}</p>}{item.data.source_url && <a className="card-link" href={item.data.source_url} target="_blank" rel="noreferrer">{ui.view_source}<ExternalLink/></a>}{item.data.links?.[0] && <a className="card-link" href={item.data.links[0].url} target="_blank" rel="noreferrer">{ui.visit_project}<ExternalLink/></a>}</div></article></SourceEditable>) : <div className="empty"><h3>{ui.no_results_title}</h3><p>{ui.no_results_body}</p></div>}</div>
-      </div></section>
-
-      <SourceEditable document={repo.site} enabled={reviewEnabled} className="featured-showcase-source"><section className="featured-showcase" data-testid="featured-showcase"><div className="wrap"><div className="section-head"><div><p className="eyebrow">{ui.featured_eyebrow}</p><h2>{ui.featured_title}</h2></div><p>{ui.featured_intro}</p></div><div className="featured-categories">
+      <SourceEditable document={interfaceDocument('featured')} enabled={reviewEnabled} className="featured-showcase-source"><section id="featured" className="featured-showcase" data-testid="featured-showcase"><div className="wrap"><div className="section-head"><div><p className="eyebrow">{ui.featured_eyebrow}</p><h2>{ui.featured_title}</h2></div><p>{ui.featured_introduction}</p></div><div className="featured-categories">
         {featuredByCategory.map(({ category: categoryDocument, items }, index) => <section key={categoryDocument.data.id} className="featured-category" data-testid="featured-category"><div className="featured-category-head"><span>0{index + 1}</span><h3>{categoryDocument.data.title}</h3></div><div className="featured-grid">{items.map((item) => <FeaturedCard key={item.data.id} item={item} categoryTitle={categoryDocument.data.title} reviewEnabled={reviewEnabled} ui={ui}/>)}</div></section>)}
       </div></div></section></SourceEditable>
 
-      <section id="skills" className="start"><div className="wrap start-grid"><SourceEditable document={gettingStarted} enabled={reviewEnabled} className="start-intro"><p className="eyebrow">{gettingStarted.data.title}</p><h2>{ui.getting_started_intro}</h2><Markdown>{gettingStarted.body}</Markdown></SourceEditable><div className="paths">{repo.gettingStarted.filter(item=>!item.sourcePath.endsWith('/index.md')).map((item,index)=><SourceEditable key={item.sourcePath} document={item} enabled={reviewEnabled} className="path"><article><div className="path-num">0{index+1}</div><div className="path-body"><h3>{item.data.title}</h3><p>{item.data.description}</p><Markdown>{item.body}</Markdown></div></article></SourceEditable>)}</div></div></section>
+      <SourceEditable document={interfaceDocument('catalogue')} enabled={reviewEnabled} className="catalogue-section-source"><section id="projects" className="catalogue-section"><div className="wrap"><div className="section-head"><div><p className="eyebrow">{ui.catalogue_eyebrow}</p><h2>{ui.catalogue_title}</h2></div><p>{ui.catalogue_introduction}</p></div>
+        <div className="catalogue-controls"><label><span>{ui.search_label}</span><div className="input-wrap"><Search/><input ref={searchRef} aria-label={ui.search_label} placeholder={ui.search_placeholder} value={query} onChange={(e)=>setQuery(e.target.value)}/></div></label><label><span>{ui.category_filter_label}</span><select value={category} onChange={(e)=>setCategory(e.target.value)}><option value="">{ui.all_categories}</option>{repo.categories.map(item=><option key={item.data.id} value={item.data.id}>{item.data.title}</option>)}</select></label><label><span>{ui.ai_involvement_filter_label}</span><select value={relationship} onChange={(e)=>setRelationship(e.target.value)}><option value="">{ui.all_ai_involvement_options}</option>{repo.relationships.map(item=><option key={item.data.id} value={item.data.id}>{item.data.title}</option>)}</select></label><label><span>{ui.sort_label}</span><select value={sort} onChange={(e)=>setSort(e.target.value)}><option value="featured">{ui.sort_featured}</option><option value="title">{ui.sort_title}</option></select></label></div>
+        <p className="result-count" aria-live="polite">{catalogue.length} {ui.results_label}</p>
+        <div data-testid="catalogue" className={`catalogue ${compact ? 'compact' : ''}`}>{catalogue.length ? catalogue.map((item) => <SourceEditable key={`${item.data.kind}-${item.data.id}`} document={item} enabled={reviewEnabled} className="catalogue-source"><article data-testid="catalogue-card" className="catalogue-card"><div className="project-top"><span className="cat">{categoryMap.get(item.data.category)?.data.title}</span><div className="chips">{item.data.relationships?.map((id:string)=><span key={id}>{relationshipMap.get(id)?.data.title}</span>)}</div></div><CatalogueMedia item={item} openLabel={ui.open_preview_label}/><div><h3>{item.data.title}</h3><p>{item.body}</p></div><div className="card-foot">{item.data.built_with && <p><strong>{ui.built_with_label}:</strong> {item.data.built_with}</p>}{item.data.source_url && <a className="card-link" href={item.data.source_url} target="_blank" rel="noreferrer">{ui.view_source}<ExternalLink/></a>}{item.data.links?.[0] && <a className="card-link" href={item.data.links[0].url} target="_blank" rel="noreferrer">{ui.visit_project}<ExternalLink/></a>}</div></article></SourceEditable>) : <div className="empty"><h3>{ui.no_results_title}</h3><p>{ui.no_results_body}</p></div>}</div>
+      </div></section></SourceEditable>
+
+      <SourceEditable document={interfaceDocument('getting-started')} enabled={reviewEnabled} className="getting-started-source"><section id="getting-started" className="start"><div className="wrap start-grid"><SourceEditable document={gettingStarted} enabled={reviewEnabled} className="start-intro"><p className="eyebrow">{gettingStarted.data.title}</p><h2>{ui.getting_started_intro}</h2><Markdown>{gettingStarted.body}</Markdown></SourceEditable><div className="paths">{repo.gettingStarted.filter(item=>!item.sourcePath.endsWith('/index.md')).map((item,index)=><SourceEditable key={item.sourcePath} document={item} enabled={reviewEnabled} className="path"><article><div className="path-num">0{index+1}</div><div className="path-body"><h3>{item.data.title}</h3><p>{item.data.description}</p><Markdown>{item.body}</Markdown></div></article></SourceEditable>)}</div></div></section></SourceEditable>
 
     </main>}
 
-    <footer><div className="wrap footer-inner"><div><strong>{repo.site.data.title.toLowerCase()}.fyi</strong><p>{repo.site.body}</p></div><div>{repo.site.data.footer_links.map((link:any)=><a key={link.href} href={link.href}>{link.label}</a>)}</div></div></footer>
+    <SourceEditable document={interfaceDocument('footer')} enabled={reviewEnabled} className="footer-source"><footer><div className="wrap footer-inner"><div><strong>{site.title.toLowerCase()}.fyi</strong><p>{site.footerDescription}</p></div><div>{site.footerLinks.map((link)=><a key={link.href} href={link.href}>{link.label}</a>)}</div></div></footer></SourceEditable>
     {settingsOpen && <div className="dialog-backdrop" role="presentation"><section role="dialog" aria-modal="true" aria-label={ui.settings} className="dialog"><button className="dialog-close" aria-label={ui.close} onClick={()=>setSettingsOpen(false)}><X/></button><h2>{ui.settings}</h2><fieldset><legend>{ui.theme}</legend>{['light','dark','system'].map(value=><label key={value}><input type="radio" name="theme" value={value} checked={theme===value} onChange={()=>setTheme(value)}/>{ui[value]}</label>)}</fieldset><label><input type="checkbox" checked={compact} onChange={(e)=>setCompact(e.target.checked)}/>{ui.compact_catalogue}</label></section></div>}
     {helpOpen && <div className="dialog-backdrop" role="presentation"><section role="dialog" aria-modal="true" aria-label={ui.keyboard_help} className="dialog"><button className="dialog-close" aria-label={ui.close} onClick={()=>setHelpOpen(false)}><X/></button><h2>{ui.keyboard_help}</h2><dl>{ui.shortcuts.map((item:any)=><div key={item.keys}><dt><kbd>{item.keys}</kbd></dt><dd>{item.label}</dd></div>)}</dl></section></div>}
   </>;

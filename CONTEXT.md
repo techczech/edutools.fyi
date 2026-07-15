@@ -22,3 +22,4 @@ The three relationships overlap. They are not maturity levels.
 - **Later** — retained for future editorial consideration.
 - **Undecided** — unresolved; neither public nor excluded.
 - **Archive** — the preserved 2025 site, available for historical reference but not presented as current guidance.
+- **Interface document** — a small Markdown document under `content/interface/`; its `#` heading supplies the visible title and its `##` sections supply named interface text.

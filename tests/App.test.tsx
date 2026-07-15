@@ -10,13 +10,52 @@ describe('EduTools 2026 homepage', () => {
     render(<App reviewEnabled={false} />);
     expect(screen.getByRole('heading', { level: 1, name: contentRepository.homepage.data.title })).toBeInTheDocument();
     expect(screen.getAllByTestId('category')).toHaveLength(4);
-    expect(screen.getByLabelText(contentRepository.site.data.ui.hero_categories_label)).toHaveClass('hero-side');
+    expect(screen.getByLabelText(contentRepository.interfaceCopy.ui.hero_categories_label)).toHaveClass('hero-side');
     expect(screen.getAllByTestId('relationship')).toHaveLength(3);
     expect(screen.getAllByText('WriteFlex Desktop').length).toBeGreaterThan(0);
     expect(screen.getAllByText('Powered or augmented by AI').length).toBeGreaterThan(0);
     expect(screen.getAllByText('Delegated to AI').length).toBeGreaterThan(0);
     expect(screen.queryByLabelText(/Edit in WriteFlex/)).not.toBeInTheDocument();
     expect(screen.getByTestId('featured-showcase')).toBeInTheDocument();
+  });
+
+  it('links every major homepage section from the top navigation', () => {
+    render(<App reviewEnabled={false} />);
+    const navigation = screen.getByRole('navigation');
+    expect(navigation).toHaveClass('section-navigation');
+    const links = within(navigation).getAllByRole('link');
+    const destinations = links.map((link) => link.getAttribute('href'));
+
+    expect(destinations).toEqual([
+      '/#possibilities',
+      '/#ai-involvement',
+      '/#featured',
+      '/#projects',
+      '/#getting-started',
+      '/about/',
+    ]);
+
+    for (const destination of destinations.filter((href) => href?.startsWith('/#'))) {
+      expect(document.querySelector(destination!.slice(1))).toBeInTheDocument();
+    }
+  });
+
+  it('opens the top navigation Markdown document from local review mode', () => {
+    render(<App reviewEnabled />);
+    expect(screen.getByLabelText('Edit in WriteFlex: Navigation')).toHaveAttribute(
+      'href',
+      '/__writeflex/open?source=content%2Finterface%2Fnavigation.md',
+    );
+  });
+
+  it('places featured apps before the full catalogue', () => {
+    render(<App reviewEnabled={false} />);
+    const featured = document.getElementById('featured');
+    const catalogue = document.getElementById('projects');
+
+    expect(featured).toBeInTheDocument();
+    expect(catalogue).toBeInTheDocument();
+    expect(featured!.compareDocumentPosition(catalogue!)).toBe(Node.DOCUMENT_POSITION_FOLLOWING);
   });
 
   it('renders the three homepage Markdown sections as three columns', () => {
@@ -96,11 +135,11 @@ describe('EduTools 2026 homepage', () => {
   it('renders three featured entries from each category', () => {
     render(<App reviewEnabled />);
     const showcase = screen.getByTestId('featured-showcase');
-    const sectionEdit = screen.getAllByLabelText('Edit in WriteFlex: EduTools')
+    const sectionEdit = screen.getAllByLabelText('Edit in WriteFlex: Featured apps.')
       .find((link) => link.parentElement?.contains(showcase));
     expect(sectionEdit).toHaveAttribute(
       'href',
-      '/__writeflex/open?source=content%2Fsite.md',
+      '/__writeflex/open?source=content%2Finterface%2Ffeatured.md',
     );
     const groups = within(showcase).getAllByTestId('featured-category');
     const expectedCategories = contentRepository.categories.map((item) => item.data.title);
