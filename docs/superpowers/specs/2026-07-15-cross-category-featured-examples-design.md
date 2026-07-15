@@ -35,13 +35,15 @@ Replace the desktop-only featured section with a twelve-item showcase. Include t
 ## Content model
 
 - Set `featured: true` in the twelve owning Markdown files.
-- Set `featured: false` for every other catalogue entry.
+- Set `featured_order: 1`, `2` or `3` within each category.
+- Ensure every other catalogue entry is not featured; a missing `featured` field means false.
 - Keep category assignments in the owning Markdown files.
 - Change 10 Week AI to `interactive-learning-objects`.
 - Keep Corpus for Non-Linguists as `interactive-learning-objects`.
 - Keep Instructional Videos Framework and Building Your Language Muscle as `content-distribution`.
 - Keep WriteFlex Desktop as `desktop-apps`; do not substitute WriteFlex web.
 - Keep all section wording in `content/site.md`.
+- Give every featured entry a public project, release or source destination.
 
 ## Rendering
 
