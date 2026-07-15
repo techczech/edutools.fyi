@@ -2,18 +2,15 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { ArrowRight, ExternalLink, HelpCircle, Pencil, Search, Settings, X } from 'lucide-react';
 import { contentRepository, type ContentDocument } from './lib/content';
-import { openInWriteFlex } from './lib/writeflex';
+import { writeFlexUrl } from './lib/writeflex';
 
 type AppProps = { reviewEnabled?: boolean };
 const repo = contentRepository;
 
 function SourceEditable({ document, enabled, children, className = '' }: { document: ContentDocument; enabled: boolean; children: React.ReactNode; className?: string }) {
   const ui = repo.site.data.ui;
-  const [state, setState] = useState<'idle'|'success'|'error'>('idle');
   return <div className={`source-editable ${className}`} data-source={document.sourcePath}>
-    {enabled && <button className="edit-source" aria-label={`${ui.edit_in_writeflex}: ${document.data.title}`} title={state === 'success' ? ui.edit_success : state === 'error' ? ui.edit_error : ui.edit_in_writeflex} onClick={async () => {
-      try { await openInWriteFlex(document.sourcePath); setState('success'); } catch { setState('error'); }
-    }}><Pencil size={15}/></button>}
+    {enabled && <a className="edit-source" href={writeFlexUrl(document.sourcePath)} aria-label={`${ui.edit_in_writeflex}: ${document.data.title}`} title={ui.edit_in_writeflex}><Pencil size={15}/></a>}
     {children}
   </div>;
 }
@@ -29,7 +26,9 @@ function homepageSections() {
 
 function HomepageCopy({ section }: { section?: { title: string; body: string } }) {
   if (!section) return null;
-  return <><h2>{section.title}</h2><Markdown>{section.body}</Markdown></>;
+  return <><h2>{section.title}</h2><div className="markdown"><ReactMarkdown components={{
+    li: ({ children }) => <li><div data-testid="summary-item-copy">{children}</div></li>,
+  }}>{section.body}</ReactMarkdown></div></>;
 }
 
 function WorkflowGraphic({ category, kind }: { category: string; kind: string }) {

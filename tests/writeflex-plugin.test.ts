@@ -1,20 +1,19 @@
-import { describe, expect, it, vi } from 'vitest';
-import { resolveEditableSource, handleWriteFlexRequest } from '../vite/writeflex-plugin';
+import { describe, expect, it } from 'vitest';
+import { writeFlexMetaTag } from '../vite/writeflex-plugin';
+import { writeFlexUrl } from '../lib/writeflex';
 
-describe('WriteFlex development bridge', () => {
+describe('WriteFlex browser links', () => {
   const root = '/tmp/example-site';
-  it('resolves only Markdown files inside content', () => {
-    expect(resolveEditableSource(root, 'content/homepage.md')).toBe('/tmp/example-site/content/homepage.md');
-    for (const value of ['../secret.md','/tmp/secret.md','content/../README.md','content/file.txt','README.md']) {
-      expect(() => resolveEditableSource(root, value)).toThrow();
-    }
+  it('creates a browser link with an encoded absolute Markdown path', () => {
+    expect(writeFlexUrl('content/homepage.md', root)).toBe(
+      'writeflex://open?path=%2Ftmp%2Fexample-site%2Fcontent%2Fhomepage.md',
+    );
   });
-  it('opens an accepted source and never opens a rejected source', async () => {
-    const opener = vi.fn().mockResolvedValue(undefined);
-    expect(await handleWriteFlexRequest(root, { source: 'content/homepage.md' }, opener)).toEqual({ ok: true });
-    expect(opener).toHaveBeenCalledWith('/tmp/example-site/content/homepage.md');
-    opener.mockClear();
-    await expect(handleWriteFlexRequest(root, { source: '../secret.md' }, opener)).rejects.toThrow();
-    expect(opener).not.toHaveBeenCalled();
+  it('declares the local workspace root for review links without exposing it as plain HTML', () => {
+    expect(writeFlexMetaTag(root)).toEqual({
+      tag: 'meta',
+      attrs: { name: 'writeflex-root', content: '%2Ftmp%2Fexample-site' },
+      injectTo: 'head',
+    });
   });
 });

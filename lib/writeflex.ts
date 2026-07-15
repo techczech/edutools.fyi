@@ -1,9 +1,10 @@
-export async function openInWriteFlex(source: string): Promise<void> {
-  const endpoint = `/${['__writeflex', 'open'].join('/')}`;
-  const response = await fetch(endpoint, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ source }),
-  });
-  if (!response.ok) throw new Error('WriteFlex bridge rejected the request');
+function localWorkspaceRoot(): string {
+  const encoded = document.querySelector<HTMLMetaElement>('meta[name="writeflex-root"]')?.content;
+  if (!encoded) throw new Error('WriteFlex links are only available in local review mode');
+  return decodeURIComponent(encoded);
+}
+
+export function writeFlexUrl(source: string, root = localWorkspaceRoot()): string {
+  const absolutePath = `${root.replace(/\/$/, '')}/${source}`;
+  return `writeflex://open?path=${encodeURIComponent(absolutePath)}`;
 }

@@ -27,6 +27,8 @@ describe('EduTools 2026 homepage', () => {
 
     expect(columns).toHaveLength(3);
     expect(columns.map((column) => within(column).getByRole('heading', { level: 2 }).textContent)).toEqual(markdownHeadings);
+    expect(columns.map((column) => within(column).getAllByRole('listitem').length)).toEqual([4, 3, 2]);
+    expect(within(summary).getAllByTestId('summary-item-copy')).toHaveLength(9);
     expect(within(screen.getByTestId('ai-modes-section')).getAllByTestId('relationship')).toHaveLength(3);
   });
 
@@ -51,9 +53,17 @@ describe('EduTools 2026 homepage', () => {
     expect(within(catalogue).getByText('Canvas Course Manager')).toBeInTheDocument();
   });
 
-  it('shows source edit controls in local review mode', () => {
+  it('shows direct WriteFlex browser links in local review mode', () => {
+    const root = document.createElement('meta');
+    root.name = 'writeflex-root';
+    root.content = encodeURIComponent('/tmp/example-site');
+    document.head.append(root);
     render(<App reviewEnabled />);
-    expect(screen.getAllByLabelText(/Edit in WriteFlex/).length).toBeGreaterThan(57);
+    const links = screen.getAllByLabelText(/Edit in WriteFlex/);
+    expect(links.length).toBeGreaterThan(57);
+    expect(links.every((link) => link.tagName === 'A')).toBe(true);
+    expect(links[0].getAttribute('href')).toMatch(/^writeflex:\/\/open\?path=%2Ftmp%2Fexample-site%2Fcontent%2F/);
+    root.remove();
   });
 
   it('opens catalogue destinations in a new tab', () => {
