@@ -6,6 +6,7 @@ category: "agent-skills"
 educational_job: "Accessibility and media"
 relationships: ["delegated-to-ai"]
 availability: "Public now"
+built_with: "Codex"
 order: 11
 related_examples: ["instructional materials","content-distribution projects"]
 source_url: "https://github.com/techczech/text-to-image-skill"

@@ -6,6 +6,7 @@ category: "agent-skills"
 educational_job: "Research and evidence"
 relationships: ["delegated-to-ai"]
 availability: "Public catalogue copy"
+built_with: "Codex"
 order: 5
 related_examples: ["academic-reading-framework","zoterolm","vscodezotero"]
 source_url: "https://github.com/techczech/dominiks-agent-skills/tree/main/academic-pdf-to-mkd"

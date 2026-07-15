@@ -2,6 +2,7 @@
 id: "desktop-apps"
 title: "Desktop applications"
 short_label: "Build complete practices"
+territory_label: "Build software you can keep"
 order: 4
 ---
 

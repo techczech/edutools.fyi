@@ -20,6 +20,10 @@ describe('Markdown content repository', () => {
     expect(repository.categories.map((item) => item.data.id)).toEqual(['interactive-learning-objects','content-distribution','agent-skills','desktop-apps']);
     expect(repository.relationships.map((item) => item.data.id)).toEqual(['built-by-ai','powered-by-ai','delegated-to-ai']);
     expect(repository.site.data.ui.search_placeholder).toBeTruthy();
+    expect(repository.projects.every((item) => !/(Vite|React|Tailwind|Electron|Tauri|TypeScript|Astro|Gemini API|monorepo)/i.test(item.data.built_with ?? ''))).toBe(true);
+    expect(repository.projects.some((item) => item.data.built_with === 'Desktop agent')).toBe(true);
+    expect(repository.projects.some((item) => item.data.built_with === 'Google AI Studio')).toBe(true);
+    expect(repository.projects.some((item) => item.data.built_with === 'Lovable')).toBe(true);
   });
 
   it('rejects unsupported controlled vocabulary', () => {

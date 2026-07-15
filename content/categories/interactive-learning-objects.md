@@ -2,6 +2,7 @@
 id: "interactive-learning-objects"
 title: "Interactive learning objects"
 short_label: "Explore and practise"
+territory_label: "Make something learners can use"
 order: 1
 ---
 

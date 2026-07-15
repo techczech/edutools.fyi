@@ -6,7 +6,7 @@ category: "interactive-learning-objects"
 relationships: ["built-by-ai"]
 featured: false
 order: 24
-built_with: "static interactive explainer"
+built_with: "Codex"
 links: []
 ---
 

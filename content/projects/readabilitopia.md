@@ -6,7 +6,7 @@ category: "interactive-learning-objects"
 relationships: ["built-by-ai"]
 featured: false
 order: 32
-built_with: "Vite + React + Tailwind"
+built_with: "Codex"
 links: []
 ---
 

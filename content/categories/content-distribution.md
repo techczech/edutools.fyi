@@ -2,6 +2,7 @@
 id: "content-distribution"
 title: "Content distribution"
 short_label: "Publish and share"
+territory_label: "Turn content into an experience"
 order: 2
 ---
 

@@ -6,7 +6,7 @@ category: "desktop-apps"
 relationships: ["built-by-ai","powered-by-ai","delegated-to-ai"]
 featured: true
 order: 39
-built_with: "Electron + Vite + React + Bridle agent harness"
+built_with: "Desktop agent"
 screenshot: "/screenshots/writeflex.png"
 links: []
 ---

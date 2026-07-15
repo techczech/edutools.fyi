@@ -6,7 +6,7 @@ category: "desktop-apps"
 relationships: ["built-by-ai"]
 featured: false
 order: 40
-built_with: "TypeScript VS Code extension"
+built_with: "Desktop agent"
 links: []
 ---
 

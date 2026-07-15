@@ -6,6 +6,7 @@ category: "agent-skills"
 educational_job: "Language and translation"
 relationships: ["delegated-to-ai"]
 availability: "Public now"
+built_with: "Codex"
 order: 7
 related_examples: ["corpus-for-non-linguists","semantictableweaver"]
 source_url: "https://github.com/techczech/corpus-tools-skill"

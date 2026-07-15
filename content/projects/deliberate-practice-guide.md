@@ -6,7 +6,7 @@ category: "content-distribution"
 relationships: ["built-by-ai","powered-by-ai"]
 featured: false
 order: 8
-built_with: "Vite + React + runtime model"
+built_with: "Codex"
 links: []
 ---
 

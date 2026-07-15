@@ -6,7 +6,7 @@ category: "desktop-apps"
 relationships: ["built-by-ai"]
 featured: true
 order: 37
-built_with: "Electron + Vite + React"
+built_with: "Desktop agent"
 screenshot: "/screenshots/slidewell.png"
 links: []
 ---

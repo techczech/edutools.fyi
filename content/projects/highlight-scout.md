@@ -6,7 +6,7 @@ category: "desktop-apps"
 relationships: ["built-by-ai"]
 featured: true
 order: 36
-built_with: "Tauri + Vite + React + Tailwind"
+built_with: "Desktop agent"
 screenshot: "/screenshots/highlight-scout.png"
 links: []
 ---

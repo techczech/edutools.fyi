@@ -6,7 +6,7 @@ category: "content-distribution"
 relationships: ["built-by-ai"]
 featured: false
 order: 13
-built_with: "TypeScript monorepo + reader-core package + demo application"
+built_with: "Codex"
 links: []
 ---
 

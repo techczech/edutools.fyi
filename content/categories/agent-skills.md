@@ -2,6 +2,7 @@
 id: "agent-skills"
 title: "Agent skills"
 short_label: "Delegate bounded work"
+territory_label: "Delegate repeatable education work"
 order: 3
 ---
 

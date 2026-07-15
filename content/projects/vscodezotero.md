@@ -6,7 +6,7 @@ category: "desktop-apps"
 relationships: ["built-by-ai","delegated-to-ai"]
 featured: false
 order: 41
-built_with: "TypeScript VS Code extension + local Zotero database access"
+built_with: "Desktop agent"
 links: []
 ---
 

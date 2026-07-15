@@ -6,7 +6,7 @@ category: "desktop-apps"
 relationships: ["built-by-ai","powered-by-ai"]
 featured: false
 order: 42
-built_with: "Gemini API"
+built_with: "Desktop agent"
 links: []
 ---
 

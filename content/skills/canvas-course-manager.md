@@ -6,6 +6,7 @@ category: "agent-skills"
 educational_job: "Teaching and learning creation"
 relationships: ["delegated-to-ai"]
 availability: "Public now"
+built_with: "Codex"
 order: 1
 related_examples: ["Canvas course materials","content distribution"]
 source_url: "https://github.com/techczech/canvas-course-manager"

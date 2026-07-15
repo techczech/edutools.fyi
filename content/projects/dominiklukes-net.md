@@ -6,7 +6,7 @@ category: "content-distribution"
 relationships: ["built-by-ai"]
 featured: false
 order: 1
-built_with: "static/publication site"
+built_with: "Codex"
 links: []
 ---
 

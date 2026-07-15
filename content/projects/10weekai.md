@@ -6,7 +6,7 @@ category: "content-distribution"
 relationships: ["built-by-ai"]
 featured: false
 order: 2
-built_with: "Vite + React + Tailwind"
+built_with: "Codex"
 links: []
 ---
 

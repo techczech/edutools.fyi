@@ -6,7 +6,7 @@ category: "desktop-apps"
 relationships: ["built-by-ai"]
 featured: false
 order: 35
-built_with: "Tauri + Vite"
+built_with: "Desktop agent"
 links: []
 ---
 

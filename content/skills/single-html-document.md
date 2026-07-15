@@ -6,6 +6,7 @@ category: "agent-skills"
 educational_job: "Reusable output patterns"
 relationships: ["delegated-to-ai"]
 availability: "Public catalogue copy"
+built_with: "Codex"
 order: 4
 related_examples: ["onlinereaderframework","interactive learning objects across the catalogue"]
 source_url: "https://github.com/techczech/dominiks-agent-skills/tree/main/single-html"

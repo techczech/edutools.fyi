@@ -6,6 +6,7 @@ category: "agent-skills"
 educational_job: "Language and translation"
 relationships: ["delegated-to-ai"]
 availability: "Publication fix needed"
+built_with: "Codex"
 order: 6
 related_examples: ["linguacheck"]
 source_url: ""

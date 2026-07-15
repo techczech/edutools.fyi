@@ -6,7 +6,7 @@ category: "interactive-learning-objects"
 relationships: ["built-by-ai"]
 featured: false
 order: 17
-built_with: "Lovable-era source + Vite + React + Tailwind"
+built_with: "Lovable"
 links: []
 ---
 

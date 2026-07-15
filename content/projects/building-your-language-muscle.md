@@ -6,7 +6,7 @@ category: "content-distribution"
 relationships: ["built-by-ai","powered-by-ai"]
 featured: false
 order: 6
-built_with: "Vite + React + Gemini API"
+built_with: "Codex"
 links: []
 ---
 

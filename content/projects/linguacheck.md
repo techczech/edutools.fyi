@@ -6,7 +6,7 @@ category: "interactive-learning-objects"
 relationships: ["built-by-ai","powered-by-ai"]
 featured: false
 order: 19
-built_with: "Google AI Studio + Vite + React + runtime model"
+built_with: "Google AI Studio"
 links: []
 ---
 

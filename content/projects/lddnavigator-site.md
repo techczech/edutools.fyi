@@ -6,7 +6,7 @@ category: "content-distribution"
 relationships: ["built-by-ai"]
 featured: false
 order: 12
-built_with: "Astro + Tailwind"
+built_with: "Codex"
 links: []
 ---
 

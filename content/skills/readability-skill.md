@@ -6,6 +6,7 @@ category: "agent-skills"
 educational_job: "Accessibility and media"
 relationships: ["delegated-to-ai"]
 availability: "Public now"
+built_with: "Codex"
 order: 9
 related_examples: ["readability-foundations","readabilitopia","dyslexia-guide"]
 source_url: "https://github.com/techczech/readability-skill"
