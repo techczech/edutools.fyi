@@ -56,16 +56,11 @@ describe('EduTools 2026 homepage', () => {
   });
 
   it('shows direct WriteFlex browser links in local review mode', () => {
-    const root = document.createElement('meta');
-    root.name = 'writeflex-root';
-    root.content = encodeURIComponent('/tmp/example-site');
-    document.head.append(root);
     render(<App reviewEnabled />);
     const links = screen.getAllByLabelText(/Edit in WriteFlex/);
     expect(links.length).toBeGreaterThan(57);
     expect(links.every((link) => link.tagName === 'A')).toBe(true);
-    expect(links[0].getAttribute('href')).toMatch(/^writeflex:\/\/open\?path=%2Ftmp%2Fexample-site%2Fcontent%2F/);
-    root.remove();
+    expect(links[0].getAttribute('href')).toMatch(/^\/__writeflex\/open\?source=content%2F/);
   });
 
   it('opens catalogue destinations in a new tab', () => {
@@ -99,8 +94,14 @@ describe('EduTools 2026 homepage', () => {
   });
 
   it('renders three featured entries from each category', () => {
-    render(<App reviewEnabled={false} />);
+    render(<App reviewEnabled />);
     const showcase = screen.getByTestId('featured-showcase');
+    const sectionEdit = screen.getAllByLabelText('Edit in WriteFlex: EduTools')
+      .find((link) => link.parentElement?.contains(showcase));
+    expect(sectionEdit).toHaveAttribute(
+      'href',
+      '/__writeflex/open?source=content%2Fsite.md',
+    );
     const groups = within(showcase).getAllByTestId('featured-category');
     const expectedCategories = contentRepository.categories.map((item) => item.data.title);
 
