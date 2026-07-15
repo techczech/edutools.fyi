@@ -13,7 +13,7 @@ section_order: [possibilities, relationships, featured-projects, skills, getting
 
 ## Four type of tools
 
-This website illustrates four kinds of tools you can build:
+This website illustrates four kinds of tools you can build: 
 
 1. **Interactive learning objects** - exercises, explainers, and more
 2. **Content distribution** - readings, manuals, textbooks
@@ -32,5 +32,5 @@ AI can be  involved in three different ways:
 ## Tools for building with AI
 There are two kinds of tools that can help you build with AI:
 
-1. **Hosted web builders:**  Tools like Google AI Studio or Lovable that will let you build and deploy learning experiences all inside a browser.
+1. **Hosted web builders:**  Tools like Google AI Studio or Lovable that will let you build and deploy learning experiences all inside a browser.  
 2.  **Desktop agents:** Tools like ChatGPT Work/Codex or Claude Code that run on your desktop and can build even desktop or phone apps.  These are also tools you can delegate tasks to using agent skills.
