@@ -66,4 +66,6 @@ The repository is a snapshot of Mikey Lau's Typewriter Auto-scroll extension and
 
 ## EduTools domain cut-over
 
-The live Google mapping still lists `edutools.fyi` against the old Cloud Run service `vibecoding-edutools-explaining-concepts-with-apps`. The 2026 site is deployed to Cloudflare Pages, but the main domain still needs to be moved from the old mapping to the Pages project.
+The main `edutools.fyi` domain now serves the 2026 site from Cloudflare Pages. Historical links use the former Cloud Run deployment directly:
+
+https://vibecoding-edutools-explaining-concepts-with-apps-cjmr775lua-uw.a.run.app/

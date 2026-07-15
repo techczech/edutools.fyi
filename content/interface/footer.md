@@ -14,4 +14,4 @@ https://dominiklukes.net
 
 ## 2025 archive
 
-/archive/2025/index.html
+https://vibecoding-edutools-explaining-concepts-with-apps-cjmr775lua-uw.a.run.app/

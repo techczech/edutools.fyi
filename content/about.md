@@ -7,7 +7,7 @@ versions:
     screenshot: "/screenshots/journey/notion-catalogue.png"
     alt: "The original EduTools Notion catalogue showing a gallery of tools for teachers"
   - label: "Illustrated guide to vibecoding"
-    href: "/archive/2025/index.html"
+    href: "https://vibecoding-edutools-explaining-concepts-with-apps-cjmr775lua-uw.a.run.app/"
     screenshot: "/screenshots/journey/edutools-2025.jpg"
     alt: "The 2025 Vibecoding EduTools illustrated guide"
 ---

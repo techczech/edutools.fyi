@@ -3,7 +3,7 @@ title: "How this site changed"
 description: "From a Notion catalogue to an illustrated guide and the current site."
 archive_action:
   label: "Visit the 2025 archive"
-  href: "/archive/2025/index.html"
+  href: "https://vibecoding-edutools-explaining-concepts-with-apps-cjmr775lua-uw.a.run.app/"
 ---
 
 EduTools started as a Notion catalogue of educational applications. It then became an illustrated guide to vibecoding.

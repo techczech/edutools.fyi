@@ -1,7 +1,7 @@
 ---
 title: "EduTools 2025 archive"
 description: "The 2025 version of EduTools."
-archive_path: "/archive/2025/index.html"
+archive_path: "https://vibecoding-edutools-explaining-concepts-with-apps-cjmr775lua-uw.a.run.app/"
 year: 2025
 ---
 

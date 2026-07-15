@@ -123,4 +123,18 @@ describe('Markdown content repository', () => {
     expect(publicUrls.get('vscodezotero')).toBe('https://github.com/techczech/zotero-agent-bridge/releases/latest');
     expect(publicUrls.get('zoterolm')).toBe('https://github.com/techczech/zoterolm/releases/latest');
   });
+
+  it('links every 2025 history reference to the former Cloud Run deployment', () => {
+    const modules = import.meta.glob('/content/**/*.md', { eager: true, query: '?raw', import: 'default' }) as Record<string, string>;
+    const repository = buildContentRepository(modules);
+    const formerSite = 'https://vibecoding-edutools-explaining-concepts-with-apps-cjmr775lua-uw.a.run.app/';
+    const about = repository.documents.find((item) => item.sourcePath === 'content/about.md');
+    const journey = repository.journey.find((item) => item.sourcePath === 'content/journey/index.md');
+    const archive = repository.journey.find((item) => item.sourcePath === 'content/journey/2025-archive.md');
+
+    expect(about?.data.versions[1].href).toBe(formerSite);
+    expect(repository.interfaceCopy.footerLinks.find((item) => item.label === '2025 archive')?.href).toBe(formerSite);
+    expect(journey?.data.archive_action.href).toBe(formerSite);
+    expect(archive?.data.archive_path).toBe(formerSite);
+  });
 });
