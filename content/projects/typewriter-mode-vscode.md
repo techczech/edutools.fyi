@@ -7,7 +7,10 @@ relationships: ["built-by-ai"]
 featured: false
 order: 40
 built_with: "Desktop agent"
-links: []
+screenshot: "/screenshots/projects/typewriter-mode-vscode.png"
+links:
+  - label: "Open project"
+    url: "https://github.com/techczech/typewriter-mode-vscode"
 ---
 
 Keeps the focused line in the middle of the screen, reducing scrolling and preserving writing focus.

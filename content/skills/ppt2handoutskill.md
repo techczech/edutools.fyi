@@ -7,6 +7,8 @@ educational_job: "Teaching and learning creation"
 relationships: ["delegated-to-ai"]
 availability: "Public now"
 built_with: "Codex"
+featured: true
+featured_order: 2
 order: 2
 related_examples: ["TalkWeaver","SlideWell","instructional-videos-framework"]
 source_url: "https://github.com/techczech/PPT2HandoutSkill"

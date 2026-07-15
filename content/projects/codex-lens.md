@@ -7,6 +7,7 @@ relationships: ["built-by-ai"]
 featured: false
 order: 35
 built_with: "Desktop agent"
+link_status: "needs-user-url"
 links: []
 ---
 

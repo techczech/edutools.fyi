@@ -13,6 +13,8 @@ dist-ssr
 *.local
 .superpowers/
 output/playwright/
+.bridle/
+.writeflex/
 
 # Editor directories and files
 .vscode/*

@@ -1,22 +1,22 @@
 ---
-title: "Continue with Codex"
-description: "Develop a prototype into a maintained project, skill or application."
+title: "Build with Codex"
+description: "Use a desktop agent to work with files and applications on your computer."
 ---
 
-Codex works with a real project on your computer. That makes it suitable for changes that need to remain inspectable and reusable after the first conversation.
+Codex is a desktop agent. It can read and change project files, run commands, test applications and use agent skills.
 
-## Give the project a durable home
+## Work in a project folder
 
-Keep source material, decisions, task state and generated outputs in the project rather than in chat history. Use Markdown for content and instructions, and keep rendering code separate from editorial copy.
+Keep source material, instructions and generated files in the project folder. Use Markdown for content so it can be edited without changing the application code.
 
-## Build through small verified changes
+## Check each change
 
-Ask Codex to inspect the existing project before changing it. Keep important decisions in version control. Test the load-bearing path in the real application rather than relying only on generated descriptions of what should work.
+Ask Codex to inspect the project before changing it. Use version control. Test the application after each change.
 
-## Reuse work as skills
+## Turn repeated tasks into skills
 
-When a process becomes repeatable, package it as an agent skill. A skill can preserve the boundaries, checks and evidence needed for work such as Canvas course management, research translation, readability review or publication of a single-file learning object.
+When you repeat a task, package the instructions and checks as an agent skill. Canvas course management, research translation and readability review are examples.
 
-## Publish static output to Cloudflare
+## Publish to Cloudflare
 
-Static sites and pre-built learning objects can be deployed without putting model keys in the browser. Applications that call a model at runtime need a server-side boundary, secrets management and a clear cost model.
+Static sites can be deployed without putting model keys in the browser. Applications that call a model while people use them need server-side code, secrets management and spending limits.

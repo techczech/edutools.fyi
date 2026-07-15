@@ -1,18 +1,18 @@
 ---
-title: "When the idea needs a desktop application"
-description: "Use a local application when the educational practice depends on files, archives or operating-system capabilities."
+title: "Build a desktop application"
+description: "Use a desktop agent to build software that runs on your computer."
 ---
 
-A desktop application is not simply a website placed inside a window. It can become part of a sustained practice: searching local highlights, organising a slide archive, weaving a talk from source material or reviewing AI-supported changes to a document.
+Desktop applications can work with local files, archives, audio, native sharing and other operating-system features.
 
-## Choose desktop for a reason
+## Use local files and features
 
-Desktop software is justified when the work needs local files, privacy, offline access, keyboard-first interaction, audio capture, native sharing or integration with tools such as Zotero and VS Code.
+Highlight Scout searches local reading highlights. SlideWell organises a local slide archive. TalkWeaver works with source files and presentations. WriteFlex edits Markdown files and can delegate tasks to an agent.
 
-## Design the whole practice
+## Include the full application
 
-Plan onboarding, settings, empty states, errors, keyboard access and recovery. A desktop application must be maintainable beyond the impressive first demonstration.
+Include onboarding, settings, empty states, errors, keyboard access and recovery.
 
-## Keep delegation reviewable
+## Show delegated changes
 
-If an embedded agent can change files or text, show what it proposes, preserve evidence and let the person accept or reject the result. WriteFlex demonstrates the combination: AI augments writing in the editor and selected tasks can also be delegated.
+If an agent can change files or text, show the proposed changes and let the user accept or reject them. WriteFlex combines AI inside the editor with tasks delegated to an agent.

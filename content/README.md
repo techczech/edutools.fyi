@@ -22,7 +22,7 @@ Frontmatter stores structured fields used for filtering and display. The Markdow
 Project records use:
 
 - `id`, `title`, `kind`, `category`, `relationships`, `featured`, `order`
-- `built_with` and `links`
+- `built_with` records the original building tool; `links` records public destinations.
 
 Skill records add:
 

@@ -6,7 +6,8 @@ category: "interactive-learning-objects"
 relationships: ["built-by-ai"]
 featured: false
 order: 26
-built_with: "Codex"
+built_with: "Google AI Studio"
+link_status: "needs-user-url"
 links: []
 ---
 

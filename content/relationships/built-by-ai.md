@@ -1,8 +1,8 @@
 ---
 id: "built-by-ai"
 title: "Built by AI"
-short_label: "AI helped make it"
+short_label: "A coding agent built traditional software"
 order: 1
 ---
 
-AI assisted with design, code, writing, testing or iteration. All first-edition examples carry this relationship, although the human purpose and judgement remain central.
+A coding agent built traditional software. The user works with the finished tool in the usual way.

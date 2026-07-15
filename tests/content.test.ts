@@ -24,6 +24,37 @@ describe('Markdown content repository', () => {
     expect(repository.projects.some((item) => item.data.built_with === 'Desktop agent')).toBe(true);
     expect(repository.projects.some((item) => item.data.built_with === 'Google AI Studio')).toBe(true);
     expect(repository.projects.some((item) => item.data.built_with === 'Lovable')).toBe(true);
+    const projectTools = new Map(repository.projects.map((item) => [item.data.id, item.data.built_with]));
+    expect(projectTools.get('proposition-mapper')).toBe('Google AI Studio');
+    expect(projectTools.get('readabilitopia')).toBe('Lovable');
+    expect(projectTools.get('10weekai')).toBe('Gemini CLI');
+    expect(projectTools.get('ai-in-clinical-trials')).toBe('Google Antigravity');
+    expect(projectTools.get('lddnavigator-site')).toBe('Claude Code');
+  });
+
+  it('defines three featured examples for each catalogue category', () => {
+    const modules = import.meta.glob('/content/**/*.md', { eager: true, query: '?raw', import: 'default' }) as Record<string, string>;
+    const repository = buildContentRepository(modules);
+    const expected = {
+      'interactive-learning-objects': ['above-the-line', 'corpus-for-non-linguists', '10weekai'],
+      'content-distribution': ['instructional-videos-framework', 'building-your-language-muscle', 'deliberate-practice-guide'],
+      'agent-skills': ['canvas-course-manager', 'ppt2handoutskill', 'research-translation'],
+      'desktop-apps': ['writeflex-desktop', 'highlight-scout', 'talk-weaver'],
+    };
+
+    const featured = repository.catalogue.filter((item) => item.data.featured);
+    expect(featured).toHaveLength(12);
+
+    for (const [category, ids] of Object.entries(expected)) {
+      expect(featured
+        .filter((item) => item.data.category === category)
+        .sort((a, b) => a.data.featured_order - b.data.featured_order)
+        .map((item) => item.data.id)).toEqual(ids);
+    }
+
+    expect(repository.catalogue.find((item) => item.data.id === '10weekai')?.data.category)
+      .toBe('interactive-learning-objects');
+    expect(featured.every((item) => item.data.links?.[0]?.url || item.data.source_url)).toBe(true);
   });
 
   it('rejects unsupported controlled vocabulary', () => {
@@ -32,5 +63,33 @@ describe('Markdown content repository', () => {
       '/content/projects/bad.md': `---\nid: bad\ntitle: Bad\nkind: project\ncategory: fifth-kind\nrelationships: [built-by-ai]\norder: 1\n---`,
     };
     expect(() => buildContentRepository(modules)).toThrow(/category/i);
+  });
+
+  it('keeps public explanatory copy free of banned and editorial language', () => {
+    const modules = import.meta.glob('/content/**/*.md', { eager: true, query: '?raw', import: 'default' }) as Record<string, string>;
+    const repository = buildContentRepository(modules);
+    const visibleFields = repository.documents.flatMap(({ data, body }) => [
+      data.title, data.description, data.tagline, data.short_label, data.territory_label, data.warning, body,
+    ]);
+    const siteLabels = [
+      ...repository.site.data.navigation.map((item: { label: string }) => item.label),
+      ...Object.values(repository.site.data.ui).flatMap((value) => typeof value === 'string' ? [value] : []),
+    ];
+    const publicCopy = [...visibleFields, ...siteLabels].filter(Boolean).join('\n');
+    expect(publicCopy).not.toMatch(/\b(boundar(?:y|ies)|surfaces?|relationships?|runtime AI|human (?:purpose|judg(?:e)?ment)|good delegation|impressive first demonstration)\b/i);
+  });
+
+  it('tracks the catalogue entries still waiting for public URLs', () => {
+    const modules = import.meta.glob('/content/**/*.md', { eager: true, query: '?raw', import: 'default' }) as Record<string, string>;
+    const repository = buildContentRepository(modules);
+    const pending = repository.catalogue
+      .filter((item) => !item.data.source_url && !item.data.links?.[0]?.url)
+      .map((item) => item.data.id)
+      .sort();
+    expect(pending).toEqual([
+      'codex-lens',
+      'keymaster',
+      'rodney-brooks-prediction-tracker',
+    ]);
   });
 });

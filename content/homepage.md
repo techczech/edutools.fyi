@@ -1,42 +1,25 @@
 ---
-title: "Think wider."
-eyebrow: "EduTools 2026"
-intro: "Educational software no longer has to fit inside the old boundary between a small side project and a full software company. AI-assisted development lets educators work across a wider field."
+title: Think bigger.
+eyebrow: EduTools 2026
+intro: You can now be more ambitious about what tools you make for learning, teaching and managing the process..
 primary_action:
   label: "Explore the possibilities"
   href: "/#possibilities"
 secondary_action:
   label: "Start with Google AI Studio or Codex"
   href: "/getting-started/"
-section_order:
-  - "possibilities"
-  - "relationships"
-  - "featured-projects"
-  - "skills"
-  - "getting-started"
-  - "journey"
+section_order: [possibilities, relationships, featured-projects, skills, getting-started, journey]
 ---
 
-## More ambitious does not have to mean more complicated
+## Four type of tools
 
-The practical range has widened. A single educator can create a focused learning object, a public guide, a reusable agent skill or a complete desktop application. The question is no longer only “Can I make a small app?” but “Which part of teaching, learning or educational management deserves a purpose-built tool?”
+This website illustrates four kinds of tools you can build: **1.** **interactive learning objects** - exercises, explainers, and more, **2. content distribution** - readings, manuals, etc., **3.** **agent skills** - operations manuals agents can reuse when you delegate work to them and **4.** **desktop applications**. These describe what a thing is for. They do not rank projects by technical complexity or maturity.
 
-## Four kinds of possibility
+## Three ways AI is involved
 
-The catalogue uses four primary categories: interactive learning objects, content distribution, agent skills and desktop applications. These describe what a thing is for. They do not rank projects by technical complexity or maturity.
+AI can be  involved in three different ways: **1. Built by AI** means that a coding agent built traditional software. The user is using a tool just like before but it was built by AI. **2. Powered/augmented by AI** means that the traditional software has some AI component (for example an optional chat)  and **3. Delegated to AI** means  that this is not traditional software but rather a set of instructions (SOPs) the agent can use to do something on your behalf.
 
-## Three relationships with AI
 
-Every example was built with AI assistance. Some also use AI while a person is using them. Others let a person delegate bounded work to an agent. These relationships overlap: WriteFlex, for example, both augments writing and allows selected work to be delegated.
+## Tools for building with AI
 
-## Runtime AI is the difficult middle
-
-Software powered by AI at runtime needs continuing model access, hosting, authentication, quotas, privacy decisions and protection against misuse. A static learning object can often be published cheaply. A continuously AI-powered experience carries an ongoing operational responsibility.
-
-## Start with a path, not a platform
-
-Use Google AI Studio when the shortest route from an idea to a visible interactive prototype matters most. Use Codex when the work needs local files, version history, reusable skills, a maintainable application or a Cloudflare deployment.
-
-## Keep the journey visible
-
-The original 2025 EduTools site remains available as an archive. It shows the earlier moment when generated educational artefacts were the main horizon. The 2026 site shows what happened when those experiments became maintained workflows, delegated skills and desktop software.
+There are two kinds of tools: **1. Hosted web builders:**  Tools like Google AI Studio or Lovable that will let you build and deploy learning experiences. **2. Desktop agents:** Tools like ChatGPT Work/Codex or Claude Code that run your desktop and can build even desktop apps. These are also tools you can delegate tasks to.

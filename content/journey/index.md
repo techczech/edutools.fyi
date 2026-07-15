@@ -1,13 +1,13 @@
 ---
-title: "The journey"
-description: "From generated educational artefacts to maintained tools, skills and applications."
+title: "How this site changed"
+description: "From a Notion catalogue to an illustrated guide and the current site."
 archive_action:
   label: "Visit the 2025 archive"
-  href: "/archive/2025/"
+  href: "/archive/2025/index.html"
 ---
 
-EduTools began as a way to show educators that generative AI could produce useful interactive materials, not only text answers. That 2025 moment remains important.
+EduTools started as a Notion catalogue of educational applications. It then became an illustrated guide to vibecoding.
 
-The 2026 collection widens the frame. Individual artefacts became publication systems. Repeated prompts became skills. Browser prototypes became desktop applications. AI moved from helping build software to augmenting selected experiences and carrying out bounded delegated work.
+The current site includes web applications, content-distribution sites, agent skills and desktop applications. It also distinguishes software built by AI, software powered by AI and work delegated to AI.
 
-The archive is preserved so visitors can inspect the change rather than being told that everything suddenly appeared fully formed.
+The 2025 site remains available as an archive.

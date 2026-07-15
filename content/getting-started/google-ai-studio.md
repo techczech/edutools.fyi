@@ -1,19 +1,19 @@
 ---
 title: "Start with Google AI Studio"
-description: "Move quickly from a written idea to an interactive browser prototype."
+description: "Use a hosted web builder to build and deploy a web application."
 tool_url: "https://aistudio.google.com/"
 ---
 
-Google AI Studio is a good starting point when you need to see and test the educational interaction before you understand every technical detail.
+Google AI Studio is a hosted web builder. You describe what you want to build and work on it in the browser.
 
-## Begin with the educational job
+## Describe what the user should do
 
-Describe who the experience is for, what they should be able to do, what source material it uses and what a successful interaction looks like. Ask for a complete experience, not a decorative landing page.
+Describe who will use the application, what they should be able to do and what source material it uses.
 
-## Test the important path
+## Test the application
 
-Try the activity with realistic material. Check what happens when the source is missing, unusually long or ambiguous. Treat the generated application as a design proposal that can be revised.
+Use realistic material. Check what happens when information is missing, unusually long or ambiguous. Revise the application when something does not work.
 
-## Know when to move on
+## Move to a desktop agent when needed
 
-Move the project into Codex when you need durable local files, structured Markdown content, version history, tests, a custom domain, Cloudflare deployment or a reusable skill. If the application calls a model while visitors use it, plan for the continuing runtime cost and operational responsibilities.
+Move the project into Codex when you need local files, version history, tests, a custom domain, Cloudflare deployment or an agent skill. Software that calls a model while people use it also needs model access, hosting, authentication and spending limits.

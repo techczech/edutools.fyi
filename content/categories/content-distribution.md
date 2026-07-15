@@ -1,9 +1,9 @@
 ---
 id: "content-distribution"
 title: "Content distribution"
-short_label: "Publish and share"
-territory_label: "Turn content into an experience"
+short_label: "Readings and manuals"
+territory_label: "Publish material for learners"
 order: 2
 ---
 
-Guides, readers, presentations, courses and publication systems that turn source material into a usable public experience. Distribution is treated as part of teaching design, not as an afterthought.
+Readings, manuals, presentations, courses and other ways of publishing material for learners.

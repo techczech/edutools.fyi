@@ -1,9 +1,9 @@
 ---
 id: "agent-skills"
 title: "Agent skills"
-short_label: "Delegate bounded work"
-territory_label: "Delegate repeatable education work"
+short_label: "Instructions and SOPs"
+territory_label: "Delegate work to an agent"
 order: 3
 ---
 
-Reusable instruction packages that let an AI agent carry out a bounded educational, research or management task. Skills preserve process knowledge so it can be inspected, adapted and used again.
+Instructions or standard operating procedures that an agent can use to complete a task on your behalf.

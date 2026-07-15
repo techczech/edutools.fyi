@@ -7,7 +7,10 @@ relationships: ["built-by-ai"]
 featured: false
 order: 13
 built_with: "Codex"
-links: []
+screenshot: "/screenshots/projects/onlinereaderframework.png"
+links:
+  - label: "Open tool"
+    url: "https://onlinereader.pages.dev/"
 ---
 
 Provides a reusable way to turn Markdown into a clean, readable web publication.
